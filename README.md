@@ -41,7 +41,7 @@ An Edtech web application for cse370(database systems) course.
 ### Technologies Used
 - Backend: Django
 - Frontend: HTML, CSS, Bootstrap
-- Database: SQL
+- Database: SQlite
 - Authentication: Django's built-in authentication framework
 
 ---
