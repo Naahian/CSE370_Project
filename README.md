@@ -48,13 +48,13 @@ An Edtech web application for cse370(database systems) course.
 
 ## Installation and Setup
 1. Clone the repository:
-   ```bash
-   git clone git@github.com:Naahian/CSE370_Project.git
-   cd CSE370_Project
-   ```
+  ```bash
+  git clone git@github.com:Naahian/CSE370_Project.git
+  cd CSE370_Project
+  ```
 2. Install django:
   ```bash
-  pip install -r django
+  pip install django
   ```
 3. Set up the database, Run migrations:
   ```bash
