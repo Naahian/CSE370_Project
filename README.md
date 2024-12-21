@@ -17,8 +17,14 @@ An Edtech web application for cse370(database systems) course.
 - **Responsive Design**: Fully responsive UI built with Bootstrap for an optimal user experience on all devices.
 
 ### Pages Overview
-- **Homepage**: navbar, banner, mission and vision, featured Courses, Testimonials, footer
-- **Course Detail Page**: course description, text, and video content, option to enroll (for Students) or edit (for Teachers).
+- **Login**
+- **Register**
+- **Homepage**:
+  - navbar, banner, mission and vision, featured Courses, Testimonials, footer
+- **Course Detail Page**:
+  - course description, text, and video content, option to enroll (for Students) or edit (for Teachers).
+- **All Course**
+- **About Us**
 - **Student Dashboard**:
   - Sidebar list (for navigations)
   - (sidebar:Profile) edit email, profile pic, first-name, last-name, delete account btn
