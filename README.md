@@ -4,8 +4,6 @@ An Edtech web application for cse370(database systems) course.
 ## Screenshots
 (screenshot image)  
 
-  ---
-
 ## Features
 ### Core Features
 - **Authentication System**: User registration, login, and logout functionality with role-based access for Students, Teachers, and Admins.
@@ -17,8 +15,6 @@ An Edtech web application for cse370(database systems) course.
   - **Teacher Dashboard**: Manage created courses and view engagement metrics.
   - **Admin Dashboard**: Oversee all courses, users, and content.
 - **Responsive Design**: Fully responsive UI built with Bootstrap for an optimal user experience on all devices.
-
----
 
 ### Pages Overview
 - **Homepage**: navbar, banner, mission and vision, featured Courses, Testimonials, footer
@@ -35,8 +31,6 @@ An Edtech web application for cse370(database systems) course.
   - (sidebar:Dashboard) course enrollment status, overal enrollment status, created courses list (can view, delete)
 - **Admin Dashboard**:
   - (default django admin dashboard) Manage users, courses, and overall application settings.
-
----
 
 ### Technologies Used
 - Backend: Django
@@ -66,8 +60,6 @@ An Edtech web application for cse370(database systems) course.
 python manage.py runserver
 ```
 5. Access the application at http://127.0.0.1:8000/.
-
----
 
 ## Contributing
 Contributions are welcome! To contribute:
