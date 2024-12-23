@@ -6,7 +6,9 @@ An Edtech web application for cse370(database systems) course.
 
 ## Features
 ### Core Features
-- **Authentication System**: User registration, login, and logout functionality with role-based access for Students, Teachers, and Admins.
+- **Authentication System**:
+  - User registration, login, and logout
+  - role-based access for Students, Teachers, and Admins.
 - **Course Management**:
   - Create, update, and delete courses.
   - Add text content, video content, and a thumbnail to each course.
