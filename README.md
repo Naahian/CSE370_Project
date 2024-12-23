@@ -36,12 +36,15 @@ An Edtech web application for cse370(database systems) course.
   - (sidebar:Create) Course creation form
   - (sidebar:Dashboard) course enrollment status, overal enrollment status, created courses list (can view, delete)
 - **Admin Dashboard**:
-  - (default django admin dashboard) Manage users, courses, and overall application settings.
+  - (sidebar:User) manage user(delete, add, modify, set role, see login history),
+  - (sidebar:Course) manage Courses(delete, add, modify),
+  - (sidebar:Enrollment) manage Enrollment(view all enrollment, create, delete),
+  - (sidebar: Static) manage Static contensts of home and about (can edit contents),
 
 ### Technologies Used
 - Backend: Django
-- Frontend: HTML, CSS, Bootstrap
-- Database: SQlite
+- Frontend: HTML, CSS, Bootstrap5
+- Database: MySQL
 - Authentication: Django's built-in authentication framework
 
 ---
@@ -66,11 +69,3 @@ An Edtech web application for cse370(database systems) course.
 python manage.py runserver
 ```
 5. Access the application at http://127.0.0.1:8000/.
-
-## Contributing
-Contributions are welcome! To contribute:
-- Fork this repository.
-- Create a feature branch: `git checkout -b feature-name`
-- Commit your changes: `git commit -m "Add some feature"`
-- Push to the branch: `git push origin feature-name`
-- Open a pull request.
