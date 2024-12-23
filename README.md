@@ -44,9 +44,9 @@ An Edtech web application for cse370(database systems) course.
   - (sidebar: Static) manage Static contensts of home and about (can edit contents),
 
 ### Technologies Used
-- Backend: Django
-- Frontend: HTML, CSS, Bootstrap5
-- Database: MySQL
+- Backend: `Django`
+- Frontend: `HTML`, `CSS`, `Bootstrap5`
+- Database: `MySQL`
 - Authentication: Django's built-in authentication framework
 
 ---
