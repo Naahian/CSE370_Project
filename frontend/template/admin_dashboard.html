@@ -2,7 +2,7 @@
 {% load static %}
 {%block content%}
 
-<main>
+<main class="my-5">
     <div class="d-flex">
         <!-- Sidebar -->
         <nav class="bg-dark" style="width: 250px; min-height: 100vh;">
@@ -46,7 +46,7 @@
             {%endfor%}
             {%endif%}
             <!-- Dashboard Section -->
-            <div class="tab-pane fade" id="dashboard">
+            <div class="tab-pane fade show active" id="dashboard">
                 <h4 class="text-uppercase">{{user_type}} Dashboard</h4>
                 <!-- student card -->
                 <div class="row">

@@ -1,51 +1,305 @@
-<!doctype html>
+{%load static%}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand bg-dark justify-content-between px-5">
-            <ul class="nav navbar-nav navbar-dark">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/" aria-current="page">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
-                </li>
+        <div id="menu" class="fas fa-bars"></div>
+        <a href="#" class="logo"><i class='fas fa-user-graduate'></i>EdTech</a>
+
+        <nav class="navbar">
+            <ul>
+                <li><a class='active' href='/'>Home</a></li>
+                <li><a href='#about'>About</a></li>
+
+                <li><a href='#course'>Course</a></li>
+
+                <li><a href='#teacher'>Teacher</a></li>
+
+                <li><a href='/dashboard'>Dashboard</a></li>
+
             </ul>
-            <a class="btn btn-primary " href="#">Login</a>
         </nav>
+        <div id="login" class="fas fa-user circle">
+
+        </div>
     </header>
+    {%block content%}
+    <!--home section starts-->
+    <section class="home" id="home">
+        <!--img src="images/home.png"-->
+        <!--img src="images/home.png" alt=""-->
+        <h1>Learn, Grow, and Succeed—All in One Platform</h1>
+        <p>
+            Empowering learners, educators, and dreamer with innovative tools and personalized learning experiences. Our
+            platform bridges the gap between knowledge and application, making education accessible, engaging, and
+            effective for everyone. Start your journey today and unlock the potential to achieve more</p>
+        <a href="#"><button class='customBtn'>Get started</button></a>
 
-    <main>
-        {%block content%}
-        <h2 class="text-center">DEMO HOME</h2>
-        {%endblock%}
-    </main>
+    </section>
 
-    <footer>
-        <!-- place footer here -->
-    </footer>
+    <!-- home end-->
+    <!--About section-->
+    <section class="about" id="about">
+        <div class="image">
+            <img src="images/about.png" alt="">
+        </div>
+        <div class="content">
+            <h3>Why Choose Us?</h3>
+            <p>We provide innovative, expert-designed learning solutions customized to your needs. With flexible,
+                affordable access to high-quality content and dedicated support, we empower learners to achieve their
+                goals anytime, anywhere. Join a global community thats transforming education and unlocking potential.
+            </p>
+            <a href="#"><button class="customBtn">Learn more</button></a>
+        </div>
+    </section>
+    <!--course section-->
+    <section class="course" id="course">
+        <h1 class="heading">Our Course list</h1>
+        <div class="box-container">
+            <div class="box">
+                <img src="images/front.png" alt="">
+                <h3 class="price">$50</h3>
+                <div class="content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="title">Learn Front end development</a>
+                    <p>Learn to build responsive interactive, and user-friendly websites using HTML, CSS, and
+                        JavaScript. This course equips you with essential skills and hands-on experience to create
+                        stunning web designs and dynamic user interfaces. Perfect for beginners and aspiring developers!
+                    </p>
+                    <div class="course-video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-video-id"
+                            title="Course Video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="info">
+                        <h3><i class='far fa-clock'></i>2 hours</h3>
+                        <h3><i class='far fa-calendar-alt'></i>6 months</h3>
+                        <h3><i class="fas fa-book">12 modules</i></h3>
+                    </div>
+                    <div class="course-actions">
+                        <button id="enroll-button-1" class="customBtn enroll-customBtn" onclick="enrollCourse(1)"
+                            style="display: none;">Enroll</button>
+                        <button id="edit-button-1" class="customBtn edit-customBtn" onclick="editCourse(1)"
+                            style="display: none;">Edit</button>
+                        <button id="completed-button-1" class="customBtn completed-customBtn" onclick="markCompleted(1)"
+                            style="display: none;">Completed</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="box">
+                <img src="images/backend11.png" alt="">
+                <h3 class="price">$50</h3>
+                <div class="content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="title">Learn Back end development</a>
+                    <p>Master the core skills needed to design, develop, and maintain server-side applications. This
+                        course covers essential topics like databases, APIs, server management, and backend frameworks
+                        such as Node.js, Django, and Laravel. Gain hands-on experience in creating secure, scalable, and
+                        high-performance applications. Perfect for those ready to dive into the engine of web
+                        development!</p>
+                    <div class="course-video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-video-id"
+                            title="Course Video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="info">
+                        <h3><i class='far fa-clock'></i>2 hours</h3>
+                        <h3><i class='far fa-calendar-alt'></i>6 months</h3>
+                        <h3><i class="fas fa-book">12 modules</i></h3>
+                    </div>
+                    <div class="course-actions">
+                        <button id="enroll-button-2" class="customBtn enroll-customBtn" onclick="enrollCourse(2)"
+                            style="display: none;">Enroll</button>
+                        <button id="edit-button-2" class="customBtn edit-customBtn" onclick="editCourse(2)"
+                            style="display: none;">Edit</button>
+                        <button id="completed-button-2" class="customBtn completed-customBtn" onclick="markCompleted(2)"
+                            style="display: none;">Completed</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <img src="images/data.png" alt="">
+                <h3 class="price">$60</h3>
+
+                <div class="content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="title">Learn Data Science</a>
+                    <p>This course is designed to provide you with essential skills in data analysis, machine learning,
+                        and visualization. You’ll master tools like Python, R, and SQL while gaining hands-on experience
+                        with real-world datasets. Perfect for beginners and professionals aiming to build a career in
+                        data science!</p>
+                    <div class="course-video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-video-id"
+                            title="Course Video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <div class="info">
+                        <h3><i class='far fa-clock'></i>2 hours</h3>
+                        <h3><i class='far fa-calendar-alt'></i>6 months</h3>
+                        <h3><i class="fas fa-book">12 modules</i></h3>
+                    </div>
+                    <div class="course-actions">
+                        <button id="enroll-button-3" class="customBtn enroll-customBtn" onclick="enrollCourse(3)"
+                            style="display: none;">Enroll</button>
+                        <button id="edit-button-3" class="customBtn edit-customBtn" onclick="editCourse(3)"
+                            style="display: none;">Edit</button>
+                        <button id="completed-button-3" class="customBtn completed-customBtn" onclick="markCompleted(3)"
+                            style="display: none;">Completed</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+
+                <img src="images/Art.png" alt="">
+                <h3 class="price">$70</h3>
+
+                <div class="content">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="title">Learn Artificial Intelegence</a>
+                    <p>Dive into the world of Artificial Intelligence with this comprehensive course. Learn the
+                        fundamentals of AI, including machine learning, deep learning, and natural language processing.
+                        Gain hands-on experience with tools like Python, TensorFlow, and neural networks while solving
+                        real-world problems. Perfect for beginners and professionals eager to explore AI-driven
+                        innovation!
+                    </p>
+                    <div class="course-video">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/your-video-id"
+                            title="Course Video" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="info">
+                        <h3><i class='far fa-cloc'></i>2 hours</h3>
+                        <h3><i class='far fa-calendar-alt'></i>6 months</h3>
+                        <h3><i class="fas fa-book">12 modules</i></h3>
+                    </div>
+                    <div class="course-actions">
+                        <button id="enroll-button-4" class="customBtn enroll-customBtn" onclick="enrollCourse(4)"
+                            style="display: none;">Enroll</button>
+                        <button id="edit-button-4" class="customBtn edit-customBtn" onclick="editCourse(4)"
+                            style="display: none;">Edit</button>
+                        <button id="completed-button-4" class="customBtn completed-customBtn" onclick="markCompleted(4)"
+                            style="display: none;">Completed</button>
+                    </div>
 
 
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+    <!--teacher section-->
+    <section class="teacher" id="teacher">
+        <h1 class="heading">Our expert teachers</h1>
+        <p>Gain knowledge from experienced professionals who are masters in their fields. Each instructor brings
+            real-world expertise, blending practical skills with in-depth theoretical concepts. Whether its Data
+            Science, Artificial Intelligence, or Back-End Development, youll learn directly from industry leaders to
+            accelerate your journey to success</p>
+        <a href="#"><button class="customBtn">learn more</button></a>
+    </section>
+    <!--contact-->
+    <section class="contact" id="contact">
+        <h1 class="heading">Contact Us</h1>
+        <div class="con">
+            <from action="">
+                <input type="text" placeholder="Full name" class="box">
+                <input type="email" placeholder="your email" class="box">
+                <input type="password" placeholder="your password" class="box">
+                <input type="number" placeholder="your number" class="box">
+                <textarea name="" id="" cols="30" rows="10" class="box adress" placeholder="your adress"></textarea>
+                <input type="submit" class="customBtn" value="send now">
+
+            </from>
+            <div class="image">
+                <img src="images/contact.png" alt="">
+            </div>
+        </div>
+    </section>
+    <!--footer-->
+    <div class="footer">
+        <div class='box-container'>
+            <div class="box">
+                <h3>Quick links</h3>
+                <a href="#">home</a>
+                <a href="#">about</a>
+                <a href="#">course</a>
+                <a href="#">teacher</a>
+                <a href="#">contact</a>
+            </div>
+
+            <div class="box">
+                <h3>contact info</h3>
+                <p><i class='fas fa-envelope'></i>suriasultana@gmail.com</p>
+                <p><i class="fas fa-phone"></i>++8801840258995</p>
+            </div>
+
+        </div>
+        <div class='button-bar'>
+            <p>&copy;2025</p>
+        </div>
+
+    </div>
+    <!--footer end-->
+    {%endblock content%}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+    <script src="js/script.js"></script>
+
+
 </body>
 
 </html>

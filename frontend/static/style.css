@@ -1,0 +1,622 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all .2d linear;
+
+}
+
+body {
+    height: 300rem;
+}
+
+section {
+    min-height: 100vh;
+    padding: 1rem 7%;
+    padding-top: 6rem;
+
+}
+
+.customBtn {
+    padding: .9rem 3.3rem;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #f39c12;
+    border-radius: 5rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    /*width:100%;
+    height:45px;
+    border:None;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,1);
+    cursor:pointer;
+    font-size:16px;
+    /*color:white;*/
+    font-weight: 600;
+    position: relative;
+    overflow: hiden;
+    z-index: 0;
+
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: -100%;
+    background: #fff9;
+    height: 150%;
+    width: 20%;
+    transform: rotate(25deg);
+    z-index: -1;
+
+}
+
+.heading {
+    color: #444;
+    padding: 1rem;
+    font-size: 4rem;
+    text-align: center;
+}
+
+/*:hover::before{
+    transition:.3s linear;
+    left:120%;
+}*/
+header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: .8rem 7%;
+    background: var(--gradient);
+    background-color: chocolate;
+}
+
+header .logo {
+    color: white;
+    font-size: 2rem;
+
+
+}
+
+header .navbar ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+
+}
+
+header .navbar ul li {
+    margin: 0 1rem;
+}
+
+header .navbar ul li a {
+    text-decoration: none;
+    font-size: 1.3rem;
+    color: white;
+
+
+}
+
+header .navbar ul li a:hover {
+    color: #f39c12;
+}
+
+header #login {
+    font-size: 1.8rem;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+header #login:hover {
+    color: #444;
+}
+
+header #menu {
+    font-size: 3rem;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+
+}
+
+.login-form {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: -120%;
+    left: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, .5);
+    /*background-image:url('img.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.login-form.popup {
+    top: 0;
+
+}
+
+.login-form form {
+    width: 35rem;
+    background: #fff;
+    margin: 0 2rem;
+    padding: 1rem 3rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 .1rem 0.3rem #333;
+    position: relative;
+}
+
+.login-form form h1 {
+    font-size: 3rem;
+    color: #f39c12;
+    padding: 1rem 0;
+
+}
+
+.login-form form .box {
+    width: 100%;
+    padding: 1rem 0;
+    margin: 1rem 0;
+    border-bottom: 0.2rem solid #666;
+    font-size: 1.6rem;
+    color: #333;
+    text-transform: none;
+
+}
+
+.login-form form .box::placeholder {
+    text-transform: capitalize;
+
+}
+
+.login-form form .box:focus {
+    border-color: #f39c12;
+}
+
+.login-form form .box:nth-child(3) {
+    margin-bottom: 5rem;
+}
+
+.login-form form p {
+    font-size: 1.4rem;
+    color: #666;
+    padding: .5rem 0;
+    /*margin-top:5px;*/
+    color: black;
+
+}
+
+.login-form form p a {
+    color: #f39c12;
+}
+
+.login-form form .btn {
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.login-form form .btn:hover {
+    background-color: #444;
+}
+
+.login-form form .fa-times {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: #999;
+}
+
+.login-form form .fa-times:hover {
+    color: #f39c12;
+}
+
+.home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    font-family: sans-serif;
+    background-image: url('../images/HomeN.png');
+    background-repeat: no-repeat;
+    /* height: 100vh; */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    text-align: center;
+
+}
+
+/*.home .im img{
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment:fixed;
+    position:relative;
+    text-align:center;
+    background:black;
+   
+}*/
+.home h1 {
+    font-size: 2rem;
+    color: white;
+    font-weight: 600;
+    text-align: right;
+}
+
+.home p {
+    font-size: 1.5rem;
+    color: white;
+    padding: 1rem 0;
+    width: 70rem;
+
+}
+
+.about {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.about .image {
+    flex: 1 1 40rem;
+}
+
+.about .image img {
+    height: 65vh;
+    width: 100%;
+
+
+}
+
+.about .content {
+    flex: 1 1 40rem;
+    padding: 5rem;
+}
+
+.about .content h3 {
+    font-size: 3.5rem;
+    color: #666;
+}
+
+.about .content p {
+    font-size: 1.5rem;
+    color: #666;
+    padding: 1rem 0;
+    font-family: sans-serif;
+}
+
+.course .box-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.course .box-container .box {
+    width: 35rem;
+    border: 0.5rem solid rgba(0, 0, 0, .3);
+    position: relative;
+    margin: 1.5rem;
+
+}
+
+.course .box-container .box img {
+    height: 18rem;
+    width: 100%;
+    object-fit: cover;
+}
+
+.course .box-container .box .content {
+    padding: 1rem;
+}
+
+.course .box-container .box .content .stars i {
+    color: #f39c12;
+    font-size: 1.7rem;
+    padding: 1rem 0.1rem;
+
+}
+
+.course .box-container .box .content .title {
+    color: #444;
+    font-size: 2.1rem;
+
+}
+
+.course .box-container .box .content .title:hover {
+    text-decoration: underline;
+}
+
+.course .box-container .box .content p {
+    padding: 1rem 0;
+    color: #666;
+    font-size: 1.5rem;
+
+}
+
+.course .box-container .box .content .course-video iframe {
+    max-width: 100%;
+    border-radius: 8px;
+
+}
+
+.course .box-container .box .content .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.9rem;
+    border-top: 0.1rem solid rgba(0, 0, 0, .3)
+}
+
+.course .box-container .box .content .info h3 {
+    font-size: 1.5rem;
+    padding: 0.9rem;
+    color: #666;
+}
+
+.course .box-container .box .content .info h3 i {
+    color: #f39c12;
+}
+
+.course .box-container .box .price {
+    position: absolute;
+    top: 16rem;
+    right: 1rem;
+    height: 6rem;
+    width: 6rem;
+    line-height: 6rem;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #f39c12;
+    color: #fff;
+    font-size: 3rem;
+
+}
+
+.btn enroll-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn edit-btn {
+    background-color: #2196F3;
+    color: white;
+}
+
+.btn completed-btn {
+    background-color: #FFC107;
+    color: white;
+}
+
+.teacher {
+    text-align: center;
+
+}
+
+.teacher p {
+    font-size: 1.8rem;
+    color: #666;
+    width: 65rem;
+    margin: 1rem auto;
+
+}
+
+.contact {
+    background: #111;
+
+}
+
+.contac .heading {
+    color: #fff;
+
+}
+
+.contact .con {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+
+}
+
+.contact .con from {
+    flex: 1 1 40rem;
+    background: #222;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    align-items: flex-start;
+
+}
+
+.contact .con from .box {
+    height: 5rem;
+    width: 49%;
+    border: 0.3rem solid blanchedalmond;
+    padding: 0 1rem;
+    margin: 1rem 0;
+    font-size: 1.5rem;
+    color: #fff;
+    background: none;
+    text-transform: none;
+}
+
+.contact .con from .box::placeholder {
+    text-transform: capitalize;
+}
+
+/*.contact .con form .address{
+    height:14rem;
+    padding:1rem;
+    width:100%;
+    resize:none;
+}*/
+.contact .con form .btn:hover {
+    background: #fff;
+    color: white;
+}
+
+.contact .con .image img {
+    height: 80vh;
+    margin-top: 2rem;
+}
+
+.footer {
+    background: #333;
+
+}
+
+.footer .box-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.footer .box-container .box {
+    margin: 1.5rem;
+    text-align: center;
+    flex: 1 1 20rem;
+
+}
+
+.footer .box-container .box h3 {
+    font-size: 2rem;
+    color: #fff;
+    padding: 3rem 0;
+}
+
+.footer .box-container .box p {
+    font-size: 1.5rem;
+    color: #fff;
+    padding: 1rem 0;
+}
+
+.footer .box-container .box p i {
+    padding-right: 5rem;
+    color: #f39c12;
+}
+
+.footer .box-container .box a {
+    font-size: 1.8rem;
+    display: block;
+    padding: 2rem;
+    color: #fff;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:768px) {
+    html {
+        font-size: 55%;
+    }
+
+    header #menu {
+        display: block;
+    }
+
+
+    header .navbar {
+        position: fixed;
+        top: -120%;
+        left: 0;
+        width: 100%;
+        background-color: #444;
+    }
+
+    header .navbar ul {
+        flex-flow: column;
+        padding: 2rem 0;
+
+    }
+
+    header .navbar ul li {
+        margin: 1.5rem;
+        text-align: center;
+        width: 100%;
+
+    }
+
+    header .navbar ul li a {
+        font-size: 2.5rem;
+        display: block;
+
+    }
+
+    header .navbar ul li a:hover {
+        color: #f39c12;
+    }
+
+    /*.fa-times{
+        transform:rotate(0deg);
+    }*/
+    header .navbar.nav-toggle {
+        top: 6.4rem;
+    }
+
+    .home h1 {
+        font-size: 4rem;
+    }
+
+    .home p {
+        width: auto;
+    }
+
+    .teacher p {
+        width: auto;
+    }
+
+    .contact .con .image {
+        display: none;
+    }
+
+}
+
+@media(max-width:500px) {
+    html {
+        font-size: 50%;
+
+    }
+
+    .contact .con form .box {
+        width: 100%;
+    }
+}
