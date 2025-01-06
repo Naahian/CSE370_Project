@@ -26,9 +26,8 @@ section {
     padding: .9rem 3.3rem;
     font-size: 1.2rem;
     color: #fff;
-    background-color: #f39c12;
+    background-color: #ee9506;
     border-radius: 5rem;
-    margin-top: 1rem;
     cursor: pointer;
     /*width:100%;
     height:45px;
@@ -45,23 +44,21 @@ section {
 
 }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: -1rem;
-    left: -100%;
-    background: #fff9;
-    height: 150%;
-    width: 20%;
-    transform: rotate(25deg);
-    z-index: -1;
-
+.customBtn:hover {
+    background-color: #ffae2d;
+    box-shadow: #ff9d0066 1px 3px 15px;
 }
+
+.customBtn:active {
+    background-color: #d38302;
+}
+
 
 .heading {
     color: #444;
     padding: 1rem;
-    font-size: 4rem;
+    font-size: 3.8rem;
+    font-weight: 600;
     text-align: center;
 }
 
@@ -95,7 +92,7 @@ header .navbar ul {
     align-items: center;
     justify-content: center;
     list-style: none;
-
+    margin: 0;
 }
 
 header .navbar ul li {
@@ -133,114 +130,17 @@ header #menu {
 
 }
 
-.login-form {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: -120%;
-    left: 0;
-    z-index: 1000;
-    background: rgba(0, 0, 0, .5);
-    /*background-image:url('img.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-}
-
-.login-form.popup {
-    top: 0;
-
-}
-
-.login-form form {
-    width: 35rem;
-    background: #fff;
-    margin: 0 2rem;
-    padding: 1rem 3rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 .1rem 0.3rem #333;
-    position: relative;
-}
-
-.login-form form h1 {
-    font-size: 3rem;
-    color: #f39c12;
-    padding: 1rem 0;
-
-}
-
-.login-form form .box {
-    width: 100%;
-    padding: 1rem 0;
-    margin: 1rem 0;
-    border-bottom: 0.2rem solid #666;
-    font-size: 1.6rem;
-    color: #333;
-    text-transform: none;
-
-}
-
-.login-form form .box::placeholder {
-    text-transform: capitalize;
-
-}
-
-.login-form form .box:focus {
-    border-color: #f39c12;
-}
-
-.login-form form .box:nth-child(3) {
-    margin-bottom: 5rem;
-}
-
-.login-form form p {
-    font-size: 1.4rem;
-    color: #666;
-    padding: .5rem 0;
-    /*margin-top:5px;*/
-    color: black;
-
-}
-
-.login-form form p a {
-    color: #f39c12;
-}
-
-.login-form form .btn {
-    width: 100%;
-    margin: 2rem 0;
-}
-
-.login-form form .btn:hover {
-    background-color: #444;
-}
-
-.login-form form .fa-times {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    font-size: 2.5rem;
-    cursor: pointer;
-    color: #999;
-}
-
-.login-form form .fa-times:hover {
-    color: #f39c12;
-}
-
 .home {
+
     display: flex;
     align-items: center;
     justify-content: center;
     flex-flow: column;
     font-family: sans-serif;
-    background-image: url('../images/HomeN.png');
+    background-image: url('/media/images/background.png');
     background-repeat: no-repeat;
-    /* height: 100vh; */
+    background-color: #1B183388;
+    background-blend-mode: multiply;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -260,15 +160,14 @@ header #menu {
    
 }*/
 .home h1 {
-    font-size: 2rem;
+    font-size: 5.2rem;
     color: white;
     font-weight: 600;
-    text-align: right;
 }
 
 .home p {
-    font-size: 1.5rem;
-    color: white;
+    font-size: 1.3rem;
+    color: #eee;
     padding: 1rem 0;
     width: 70rem;
 
@@ -301,6 +200,7 @@ header #menu {
 .about .content h3 {
     font-size: 3.5rem;
     color: #666;
+    font-weight: 600;
 }
 
 .about .content p {
@@ -315,6 +215,7 @@ header #menu {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+
 }
 
 .course .box-container .box {
@@ -322,7 +223,14 @@ header #menu {
     border: 0.5rem solid rgba(0, 0, 0, .3);
     position: relative;
     margin: 1.5rem;
+    border-radius: 1rem;
+    overflow: hidden;
 
+
+}
+
+.course .box-container .box:hover {
+    box-shadow: #33333355 1px 3px 15px;
 }
 
 .course .box-container .box img {
@@ -355,7 +263,7 @@ header #menu {
 .course .box-container .box .content p {
     padding: 1rem 0;
     color: #666;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 
 }
 
@@ -373,55 +281,24 @@ header #menu {
     border-top: 0.1rem solid rgba(0, 0, 0, .3)
 }
 
-.course .box-container .box .content .info h3 {
-    font-size: 1.5rem;
-    padding: 0.9rem;
+.course .box-container .box .content .info h4 {
+
     color: #666;
 }
 
-.course .box-container .box .content .info h3 i {
+.course .box-container .box .content .info h4 i {
     color: #f39c12;
 }
 
-.course .box-container .box .price {
-    position: absolute;
-    top: 16rem;
-    right: 1rem;
-    height: 6rem;
-    width: 6rem;
-    line-height: 6rem;
-    text-align: center;
-    border-radius: 50%;
-    background-color: #f39c12;
-    color: #fff;
-    font-size: 3rem;
-
-}
-
-.btn enroll-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.btn edit-btn {
-    background-color: #2196F3;
-    color: white;
-}
-
-.btn completed-btn {
-    background-color: #FFC107;
-    color: white;
-}
 
 .teacher {
     text-align: center;
-
 }
 
 .teacher p {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+    width: 70%;
     color: #666;
-    width: 65rem;
     margin: 1rem auto;
 
 }
@@ -479,7 +356,7 @@ header #menu {
     width:100%;
     resize:none;
 }*/
-.contact .con form .btn:hover {
+.contact .con form .customBtn:hover {
     background: #fff;
     color: white;
 }
