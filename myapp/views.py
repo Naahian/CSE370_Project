@@ -163,7 +163,7 @@ def enroll_course(request, course_id):
         # Create the enrollment
         Enrollment.objects.create(user=request.user, course=course)
         messages.success(request, f"You have successfully enrolled in {course.title}!")
-    return redirect('course_detail', course_id=course.id)
+    return redirect('courses', course_id=course.id)
 
 @login_required
 def get_all_users(request):
