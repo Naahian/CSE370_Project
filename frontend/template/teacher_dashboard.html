@@ -1,148 +1,126 @@
-{%extends 'home.html'%}
+{%extends 'admin_dashboard.html'%}
+{%load static%}
 {%block content%}
-<main>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="bg-dark text-white p-3" style="width: 250px; min-height: 100vh;">
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2 text-center">
-                    <a class="nav-link text-white" href="#dashboard" data-bs-toggle="tab">Dashboard</a>
-                </li>
-                <li class="nav-item mb-2 text-center">
-                    <a class="nav-link text-white" href="#courses" data-bs-toggle="tab">Courses</a>
-                </li>
-                <li class="nav-item mb-2 btn btn-sm btn-outline-primary">
-                    <a class="nav-link text-white" href="#create_course" data-bs-toggle="tab">Create
-                        Course</a>
-                </li>
+<div class="d-flex w-100 h-100">
+    <!-- Sidebar -->
+    <div class="nav flex-column nav-pills bg-dark bg-gradient p-3" id="v-pills-tab" role="tablist">
+        <a class="link-light link-opacity-50-hover mx-5 my-3 p-2 text-center" href="/">
+            <h4> EdTech</h4>
+        </a>
+        <a class="nav-link link-light link-opacity-50-hover active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"
+            aria-selected="true">Dashboard</a>
 
-            </ul>
-        </nav>
+        <a class="nav-link link-light link-opacity-50-hover" id="v-pills-courses-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-courses" type="button" role="tab" aria-controls="v-pills-courses"
+            aria-selected="false">Courses</a>
 
-        <!-- Main Content -->
-        <div class="tab-content flex-grow-1 p-4">
 
-            <!-- Courses Section -->
-            <div class="tab-pane fade" id="courses">
-                <h4>Courses</h4>
-                <ul class="list-group" id="courses-list">
-                    <!-- fetch from api -->
-                </ul>
+        <a class="text-center nav-link link-danger" href="#">Logout</a>
+
+    </div>
+
+    <!-- Tab Content tab -->
+    <div class="tab-content w-100 p-4 " id="v-pills-tabContent">
+        <!-- status messeges -->
+        <div>
+            {%if courses%}
+            {%for msg in courses%}
+
+            <div class="row-md-4 alert 
+                {%if msg.tags == 'error'%} alert-danger {%else%} alert-success {%endif%}
+                alert-dismissible fade show " role="alert" id="alertBox">
+                {{msg}}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-
-            <!--Create Courses Section -->
-            <div class="tab-pane fade w-50 m-auto" id="create_course">
-                <h5 class="text-center">Create a New Course</h5>
-                <form method="post" action="" enctype="multipart/form-data">
-                    {% csrf_token %}
-
-                    <!-- Created By (Hidden or Auto-Filled) -->
-                    <input type="hidden" name="created_by" value="{{ user.id }}">
-
-                    <!-- Title -->
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Course Title</label>
-                        <input type="text" class="form-control" id="title" name="title"
-                            placeholder="Enter the course title" required>
-                    </div>
-
-                    <!-- Detail -->
-                    <div class="mb-3">
-                        <label for="detail" class="form-label">Course Detail</label>
-                        <textarea class="form-control" id="detail" name="detail" rows="5"
-                            placeholder="Enter detailed information about the course" required></textarea>
-                    </div>
-
-                    <!-- Video Link -->
-                    <div class="mb-3">
-                        <label for="video_link" class="form-label">Video Link</label>
-                        <input type="url" class="form-control" id="video_link" name="video_link"
-                            placeholder="Enter a valid video URL" required>
-                    </div>
-
-                    <!-- Thumbnail -->
-                    <div class="mb-3">
-                        <label for="thumbnail" class="form-label">Thumbnail</label>
-                        <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/*">
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Create Course</button>
-                    </div>
-                </form>
-
-            </div>
-
-            <!-- Enrollment Section -->
-            <div class="tab-pane fade" id="enrollment">
-                <h4>Enrollment</h4>
-                <ul class="list-group" id="enrollment-list">
-                    <!-- fetch from api -->
-                </ul>
-            </div>
-
-            <!-- Dashboard Section -->
-            <div class="tab-pane fade active" id="dashboard">
-                <h4 class="text-uppercase">{{user_type}} Dashboard</h4>
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-body">
-                                <h5 class="card-text">Total Courses</h5>
-                                <h3 class="card-title">{{courses}}</h3>
-                            </div>
+            {%endfor%}
+            {%endif%}
+        </div>
+        <!-- Dashboard tab -->
+        <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
+            aria-labelledby="v-pills-dashboard-tab">
+            <h4 class="text-uppercase">{{user_type}} Dashboard</h4>
+            <div class="row">
+                <!-- Course card -->
+                <div class="col-md-4">
+                    <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
+                        <div class="col-md-8 card-body">
+                            <h5 class="card-text">Total Courses</h5>
+                            <h2 class="card-title">0</h2>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-body">
-                                <h5 class="card-text">Total Enrollments</h5>
-                                <h3 class="card-title">{{enrollments}}</h3>
-                            </div>
-                        </div>
+                        <!-- {{MEDIA_URL}} on prod -->
+                        <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/course.png">
                     </div>
                 </div>
+
+                <!-- Enrollment card -->
+                <div class="col-md-4">
+                    <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
+                        <div class="col-md-8 card-body">
+                            <h5 class="card-text">Total Enrollments</h5>
+                            <h2 class="card-title">0</h2>
+                        </div>
+                        <!-- {{MEDIA_URL}} on prod -->
+                        <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/enroll.png">
+                    </div>
+                </div>
+
             </div>
+            <!-- activity -->
+            <div class="row px-3">
+                <h4>Recent Activity</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>User</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activity-list">
+                        <!-- fetch from API -->
+                    </tbody>
+                </table>
+            </div>
+
         </div>
+
+        <!-- Courses tab -->
+        <div class="tab-pane fade" id="v-pills-courses" role="tabpanel" aria-labelledby="v-pills-courses-tab">
+            <h4>Courses</h4>
+            <!-- delete option -->
+            <div class="row align-items-center p-2">
+                <label class="col-1 form-label " for="id">Select Course</label>
+                <div class="col-5">
+                    <select id="course-select" name="course-select" class="form-select">
+                    </select>
+                </div>
+                <!-- Unenroll -->
+                <button class="col-1 btn btn-danger" id="delete-course-btn">Unenroll</button>
+                <!-- Completed -->
+                <button class="col-1 btn btn-success mx-2" id="edit-course-btn">Completed</button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Instructor</th>
+                        <th>Enrollments</th>
+                    </tr>
+                </thead>
+                <tbody id="courses-list">
+
+                    <!-- fetch from API -->
+                </tbody>
+            </table>
+        </div>
+
     </div>
-</main>
-<script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-
-        // Fetch Courses
-        fetch('/courses/')
-            .then(response => response.json())
-            .then(data => {
-                const coursesContainer = document.getElementById('courses-list');
-                data.courses.forEach(course => {
-                    const listItem = document.createElement('li');
-                    listItem.className = "list-group-item"
-                    listItem.innerHTML += `<strong>${course.title}</strong>`;
-                    listItem.innerHTML += ` | by ${course.created_by}`;
-                    coursesContainer.appendChild(listItem);
-                });
-            });
-
-        // Fetch Enrollments
-        fetch('/enrollment/')
-            .then(response => response.json())
-            .then(data => {
-                const enrollmentsContainer = document.getElementById('enrollment-list');
-                data.enrollment.forEach(enrollment => {
-                    const listItem = document.createElement('li');
-                    listItem.className = "list-group-item"
-                    listItem.innerHTML += `User: <strong>${enrollment.username}</strong>`
-                    listItem.innerHTML += ` Course: <strong>${enrollment.course}</strong>`;
-                    enrollmentsContainer.appendChild(listItem);
-                });
-            });
+</div>
 
 
-    });
 
-</script>
 
+<script src="{% static 'admin_dashboard.js' %}"></script>
 {%endblock%}

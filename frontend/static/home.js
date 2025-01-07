@@ -1,25 +1,12 @@
-$(document).ready(function(){
-    $('#menu').click(function(){
-        $(this).toggleClass('fa-times')
-        $('.navbar').toggleClass('nav-toggle')
-    })
-    $('#login').click(function(){
-        $('.login-form').addClass('popup');
+window.addEventListener('load', function () {
 
-    })
-    $('.login-form form .fa-times').click(function(){
-        $('.login-form').removeClass('popup');
-    })
-    $(window).on('load scroll',function(){
-        $('#menu').removeClass('fa-times')
-        $('.navbar').removeClass('nav-toggle')
-        $('.login-form').removeClass('popup');
+    fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(json => {
 
-    })
+            //todo
+        })
 });
-
-
-
 
 // Assuming we have a role to check
 let userRole = 'teacher'// Can be 'teacher' or 'student'
@@ -48,7 +35,7 @@ function updateButtonsForTeacher() {
         // Hide the Enroll and Completed buttons for the teacher
         document.getElementById('enroll-button-' + i).style.display = 'none';
         document.getElementById('completed-button-' + i).style.display = 'none';
-        
+
         // Show the Edit button for the teacher
         document.getElementById('edit-button-' + i).style.display = 'inline-block';
     }

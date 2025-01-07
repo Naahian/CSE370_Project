@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, Group
 # from enrollment.models import Enrollment  
 
 
-# @login_required(login_url="/user/login")
+@login_required(login_url="/user/login")
 def dashboard(request:HttpRequest):
     usertype = getUsertype(request.user)
     if(usertype == "admin"):
@@ -34,8 +34,8 @@ def adminDashboard(request:HttpRequest, usertype="admin"):
     return render(request, "admin_dashboard.html")
 
 
-@login_required(login_url="/user/login")
-def studentDashboard(request, usertype):
+# @login_required(login_url="/user/login")
+def studentDashboard(request, usertype="student"):
     context = {
         "user_type": usertype,
         # "enrollments": len(Enrollment.objects.all()),        
@@ -44,8 +44,8 @@ def studentDashboard(request, usertype):
     return render(request, "student_dashboard.html", context)
 
 
-@login_required(login_url="/user/login")
-def teacherDashboard(request, usertype):
+# @login_required(login_url="/user/login")
+def teacherDashboard(request, usertype="teacher"):
     context = {
         "user_type": usertype,
         # "courses": len(Course.objects.all()),
