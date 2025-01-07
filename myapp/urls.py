@@ -4,6 +4,7 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
+    path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('success/', views.success_view, name='success'),
@@ -11,7 +12,9 @@ urlpatterns = [
     path('courses/', views.get_courses, name='courses'),
     path('courses/create/', views.create_course, name='create_course'),  # Create course
     path('courses/<int:course_id>/update/', views.update_course, name='update_course'),  # Update course
-    path('courses/<int:course_id>/delete/', views.delete_course, name='delete_course'),  # Delete course
+    path('courses/<int:course_id>/delete/', views.delete_course, name='delete_course'),
+    path('users/', views.get_all_users, name='get_all_users'),
+    path('delete_user/<int:user_id>/', views.delete_user, name='delete_user'), # Delete course
 ]
 
 if settings.DEBUG:
