@@ -1,17 +1,17 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import make_password
+from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import cache_control
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Course, Enrollment
 from django.shortcuts import get_object_or_404, redirect
 from myapp.models import Course, Enrollment
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import logout
 
 def register_view(request):
     if request.method == 'POST':
@@ -75,6 +75,12 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have successfully logged out.")
+    return redirect('login')
+
+
 @never_cache
 @login_required(login_url='/login/')
 def success_view(request):
@@ -123,11 +129,11 @@ def update_course(request, course_id):
         course.modules = request.POST.get('modules')
         course.video_url = request.POST.get('video_url')
         if 'thumbnail' in request.FILES:
-            course.thumbnail = request.FILES['thumbnail']  # Update thumbnail if provided
+            course.thumbnail = request.FILES['thumbnail'] 
 
         course.save()
         messages.success(request, "Course updated successfully!")
-        return redirect('courses')  # Redirect to the course list
+        return redirect('courses')  
 
     return render(request, 'update_course.html', {'course': course})
 
@@ -150,7 +156,7 @@ def success_page(request, course_id):
 @login_required
 def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    # Check if the user is already enrolled
+
     if Enrollment.objects.filter(user=request.user, course=course).exists():
         messages.error(request, "You are already enrolled in this course.")
     else:
@@ -159,3 +165,24 @@ def enroll_course(request, course_id):
         messages.success(request, f"You have successfully enrolled in {course.title}!")
     return redirect('course_detail', course_id=course.id)
 
+@login_required
+def get_all_users(request):
+    if not request.user.is_superuser:
+        return JsonResponse({'error': 'Permission denied. Only admins can view users.'}, status=403)
+
+    users = User.objects.all().values('id', 'username', 'email', 'is_staff', 'is_active', 'date_joined')
+    return JsonResponse(list(users), safe=False)
+
+# Delete a user
+@login_required
+def delete_user(request, user_id):
+    if not request.user.is_superuser:
+        return JsonResponse({'error': 'Permission denied. Only admins can delete users.'}, status=403)
+
+    user = get_object_or_404(User, id=user_id)
+
+    if user.is_superuser:
+        return JsonResponse({'error': 'Cannot delete a superuser.'}, status=403)
+
+    user.delete()
+    return JsonResponse({'message': f'User with ID {user_id} has been deleted successfully.'})
