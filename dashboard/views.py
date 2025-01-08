@@ -1,60 +1,81 @@
 from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User, Group
+
+from courses.models import Course
+from dashboard.models import Activity
+from enrollments.models import Enrollment
 # from courses.models import Course
 # from enrollment.models import Enrollment  
 
 
-@login_required(login_url="/user/login")
+@login_required(login_url="/users/login")
 def dashboard(request:HttpRequest):
     usertype = getUsertype(request.user)
     if(usertype == "admin"):
-        return adminDashboard(request, usertype)
+        return redirect('admin-dashboard')
     if(usertype == "student"):
-        return studentDashboard(request, usertype)
+        return redirect('student-dashboard')
     if(usertype == "teacher"):
-        return teacherDashboard(request, usertype)
+        return redirect('teacher-dashboard')
 
 
-# @login_required(login_url="/user/login")
+#ADMIN
+@login_required(login_url="/users/login")
 def adminDashboard(request:HttpRequest, usertype="admin"):
+    activities = list(Activity.objects.values().order_by('-timestamp'))
+    for activity in activities:
+        activity["username"] = User.objects.filter(id=activity['user_id']).first().username
+
     context = {
         "user_type": usertype,
-        # "courses": len(Course.objects.all()),
-        # "enrollments": len(Enrollment.objects.all()),        
-        "teacher":0,
-        "student":0,
+        "courses": len(Course.objects.all()),
+        "enrollments": len(Enrollment.objects.all()),        
+        "teachers":Group.objects.get(name="teacher").user_set.count(),
+        "students":Group.objects.get(name="student").user_set.count(),
+        "activities" : activities
     }
-    for user in User.objects.all():
-        type = getUsertype(user)
-        if(type == "teacher"): context["teacher"] +=1
-        elif(type == "student"): context["student"] +=1
-
-    return render(request, "admin_dashboard.html")
+    return render(request, "admin_dashboard.html", context=context)
 
 
-# @login_required(login_url="/user/login")
+#STUDENT
+@login_required(login_url="/users/login")
 def studentDashboard(request, usertype="student"):
+    activities = list( Activity.objects.filter(user=request.user).values().order_by('-timestamp'))
+    for activity in activities:
+        activity["username"] = User.objects.filter(id=activity['user_id']).first().username
+    
     context = {
+        "user_id": request.user.id,
+        "username": request.user.username,
         "user_type": usertype,
-        # "enrollments": len(Enrollment.objects.all()),        
+        "enrollments": len(Enrollment.objects.all()),  
+        "enrollments": len(Enrollment.objects.all()),  
+        "activities":activities,
     }
-
     return render(request, "student_dashboard.html", context)
 
 
-# @login_required(login_url="/user/login")
+#TEACHER
+@login_required(login_url="/users/login")
 def teacherDashboard(request, usertype="teacher"):
-    context = {
-        "user_type": usertype,
-        # "courses": len(Course.objects.all()),
-        # "enrollments": len(Enrollment.objects.all()),        
-    }
+    activities = list( Activity.objects.filter(user=request.user).values().order_by('-timestamp'))
+    for activity in activities:
+        activity["username"] = User.objects.filter(id=activity['user_id']).first().username
 
+    context = {
+        "user_id": request.user.id,
+        "username": request.user.username,
+        "user_type": usertype,
+        "courses": len(Course.objects.all()),
+        "enrollments": len(Enrollment.objects.all()),  
+        "activities":activities,
+    }
     return render(request, "teacher_dashboard.html", context)
 
 
+#others
 def isNotStudent(user:User):
     admin = user.groups.filter(name="admin").exists()
     teacher = user.groups.filter(name="teacher").exists()

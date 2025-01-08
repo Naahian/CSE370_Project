@@ -1,5 +1,5 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" style="height: 100%;">
 
 <head>
@@ -17,7 +17,7 @@
     {%block content%}
     <div class="d-flex w-100 h-100">
         <!-- Sidebar -->
-        <div class="nav flex-column nav-pills bg-dark bg-gradient p-3" id="v-pills-tab" role="tablist">
+        <div class="nav flex-column nav-pills bg-dark bg-gradient p-3 h-100" id="v-pills-tab" role="tablist">
             <a class="link-light link-opacity-50-hover mx-5 my-3 p-2 text-center" href="/">
                 <h4> EdTech</h4>
             </a>
@@ -27,11 +27,11 @@
 
             <a class="nav-link link-light link-opacity-50-hover" id="v-pills-users-tab" data-bs-toggle="pill"
                 data-bs-target="#v-pills-users" type="button" role="tab" aria-controls="v-pills-users"
-                aria-selected="false">Users</a>
+                onclick="getUsers()" aria-selected="false">Users</a>
 
             <a class="nav-link link-light link-opacity-50-hover" id="v-pills-courses-tab" data-bs-toggle="pill"
                 data-bs-target="#v-pills-courses" type="button" role="tab" aria-controls="v-pills-courses"
-                aria-selected="false">Courses</a>
+                onclick="getCourses()" aria-selected="false">Courses</a>
 
             <a class="nav-link link-light link-opacity-50-hover" id="v-pills-create-user-tab" data-bs-toggle="pill"
                 data-bs-target="#v-pills-create-user" type="button" role="tab" aria-controls="v-pills-create-user"
@@ -39,22 +39,24 @@
 
             <a class="nav-link link-light link-opacity-50-hover" id="v-pills-create-course-tab" data-bs-toggle="pill"
                 data-bs-target="#v-pills-create-course" type="button" role="tab" aria-controls="v-pills-create-course"
-                aria-selected="false">Create Course</a>
+                onclick="getUsers()" aria-selected="false">Create Course</a>
 
             <a class="nav-link link-light link-opacity-50-hover" id="v-pills-create-enrollment-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-create-enrollment" type="button" role="tab"
-                aria-controls="v-pills-create-enrollment" aria-selected="false">Create Enrollment</a>
+                onclick="enrollNavEvent()" aria-controls="v-pills-create-enrollment" aria-selected="false">Create
+                Enrollment</a>
 
-            <a class="text-center nav-link link-danger" href="#">Logout</a>
+            <a class="text-center nav-link link-danger" href="{%url 'logout'%}">Logout</a>
 
         </div>
 
         <!-- Tab Content tab -->
-        <div class="tab-content w-100 p-4 bg-light" id="v-pills-tabContent">
+        <div class="tab-content w-100 p-4 bg-light" id="v-pills-tabContent"
+            style="overflow-y: auto; max-height: calc(100vh - 2rem);">
             <!-- status messeges -->
             <div>
-                {%if courses%}
-                {%for msg in courses%}
+                {%if messages%}
+                {%for msg in messages%}
 
                 <div class="row-md-4 alert 
                     {%if msg.tags == 'error'%} alert-danger {%else%} alert-success {%endif%}
@@ -76,7 +78,7 @@
                         <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
                             <div class="col-md-8 card-body">
                                 <h5 class="card-text">Total Students</h5>
-                                <h2 class="card-title">0</h2>
+                                <h2 class="card-title">{{students}}</h2>
                             </div>
                             <!-- {{MEDIA_URL}} on prod -->
                             <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/student.png">
@@ -87,7 +89,7 @@
                         <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
                             <div class="col-md-8 card-body">
                                 <h5 class="card-text">Total Courses</h5>
-                                <h2 class="card-title">0</h2>
+                                <h2 class="card-title">{{courses}}</h2>
                             </div>
                             <!-- {{MEDIA_URL}} on prod -->
                             <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/course.png">
@@ -98,7 +100,7 @@
                         <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
                             <div class="col-md-8 card-body">
                                 <h5 class="card-text">Total Enrollments</h5>
-                                <h2 class="card-title">0</h2>
+                                <h2 class="card-title">{{enrollments}}</h2>
                             </div>
                             <!-- {{MEDIA_URL}} on prod -->
                             <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/enroll.png">
@@ -109,7 +111,7 @@
                         <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
                             <div class="col-md-8 card-body">
                                 <h5 class="card-text">Total Teachers</h5>
-                                <h2 class="card-title">0</h2>
+                                <h2 class="card-title">{{teachers}}</h2>
                             </div>
                             <!-- {{MEDIA_URL}} on prod -->
                             <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/teacher.png">
@@ -122,13 +124,21 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Activity</th>
                                 <th>User</th>
+                                <th>Activity</th>
+                                <th>Detail</th>
                                 <th>Time</th>
                             </tr>
                         </thead>
                         <tbody id="activity-list">
-                            <!-- fetch from API -->
+                            {%for item in activities %}
+                            <tr>
+                                <td>{{item.username}}</td>
+                                <td>{{item.action}}</td>
+                                <td>{{item.details}}</td>
+                                <td>{{item.timestamp}}</td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -144,10 +154,10 @@
                         <select class="form-select" id="user-select" name="user-select">
                         </select>
                     </div>
-                    <!-- Delete -->
-                    <button class=" col-1 btn btn-danger " id="delete-user-btn">Delete</button>
-                    <!-- Edit -->
-                    <button class="col-1 btn btn-warning mx-2" id="edit-course-btn">Edit</button>
+                    <div class="col-4">
+                        <!-- Delete -->
+                        <button class="btn btn-danger" id="delete-user-btn">Delete</button>
+                    </div>
                 </div>
                 <table class="table table-striped sw-100">
                     <thead>
@@ -175,10 +185,10 @@
                         <select id="course-select" name="course-select" class="form-select">
                         </select>
                     </div>
-                    <!-- Delete -->
-                    <button class="col-1 btn btn-danger" id="delete-course-btn">Delete</button>
-                    <!-- Edit -->
-                    <button class="col-1 btn btn-warning mx-2" id="edit-course-btn">Edit</button>
+                    <div class="col">
+                        <!-- Delete -->
+                        <button class="btn btn-danger" id="delete-course-btn">Delete</button>
+                    </div>
                 </div>
                 <table class="table table-striped">
                     <thead>
@@ -207,7 +217,7 @@
                 </div>
                 {% endif %}
                 <!-- TODO -->
-                <form method="post" action="">
+                <form method="post" action="{%url 'register'%}">
                     {% csrf_token %}
                     <!-- Name Field -->
                     <div class="mb-3">
@@ -221,8 +231,8 @@
                     </div>
                     <!-- type Field -->
                     <div class="mb-3">
-                        <label for="type" class="form-label">Select Role</label>
-                        <select id="type" name="type" class="form-select">
+                        <label for="user_type" class="form-label">Select Role</label>
+                        <select id="user_type" name="user_type" class="form-select">
                             <option value="student">Student</option>
                             <option value="teacher">Teacher</option>
                         </select>
@@ -234,8 +244,9 @@
                     </div>
                     <!-- Confirm Password Field -->
                     <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirmPassword" required>
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                            required>
                     </div>
                     <!-- Submit Button -->
                     <div class="d-grid">
@@ -248,7 +259,7 @@
                 aria-labelledby="v-pills-create-course-tab">
                 <h5 class="text-center">Create a New Course</h5>
                 <!-- TODO -->
-                <form method="post" action="">
+                <form method="post" action="{%url 'create_course'%}">
                     {% csrf_token %}
 
                     <!-- Created By -->
@@ -257,7 +268,6 @@
                         <select class="form-select" name="created_by" id="created-by">
                         </select>
                     </div>
-
 
                     <!-- Title -->
                     <div class="mb-3">
@@ -276,8 +286,13 @@
                     <!-- Video Link -->
                     <div class="mb-3">
                         <label for="video_link" class="form-label">Video Link</label>
-                        <input type="url" class="form-control" id="video_link" name="video_link"
+                        <input type="url" class="form-control" id="video_link" name="video_url"
                             placeholder="Enter a valid video URL" required>
+                    </div>
+                    <!-- Duration -->
+                    <div class="mb-3">
+                        <label for="video_link" class="form-label">Course Duration</label>
+                        <input type="number" class="form-control" id="duration" name="duration" required>
                     </div>
 
                     <!-- Thumbnail -->
@@ -298,20 +313,20 @@
                 aria-labelledby="v-pills-create-enrollment-tab">
                 <h5 class="text-center">Create an Enrollment</h5>
                 <!-- TODO -->
-                <form method="post" action="">
+                <form method="post" action="{% url 'enroll-course'%}">
                     {% csrf_token %}
 
                     <!-- User -->
                     <div class="mb-3">
                         <label for="title" class="form-label">User</label>
-                        <select class="form-select" name="user" id="enrolled-by">
+                        <select class="form-select" name="user_id" id="enrolled-by">
                         </select>
                     </div>
 
                     <!-- Course -->
                     <div class="mb-3">
                         <label for="title" class="form-label">Course</label>
-                        <select class="form-select" name="course" id="enroll-courses-list">
+                        <select class="form-select" name="course_id" id="enroll-courses-list">
                         </select>
                     </div>
 
@@ -327,6 +342,11 @@
 
     <script src="{% static 'admin_dashboard.js' %}"></script>
     {%endblock%}
+
+
+    {% block modals %}
+    {% include "dashboard_update_modal.html" %}
+    {% endblock %}
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

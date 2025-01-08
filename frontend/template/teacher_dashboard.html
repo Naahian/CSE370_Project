@@ -3,29 +3,34 @@
 {%block content%}
 <div class="d-flex w-100 h-100">
     <!-- Sidebar -->
-    <div class="nav flex-column nav-pills bg-dark bg-gradient p-3" id="v-pills-tab" role="tablist">
+    <div class="nav flex-column nav-pills bg-dark bg-gradient p-3 h-100" id="v-pills-tab" role="tablist">
         <a class="link-light link-opacity-50-hover mx-5 my-3 p-2 text-center" href="/">
             <h4> EdTech</h4>
         </a>
         <a class="nav-link link-light link-opacity-50-hover active" id="v-pills-dashboard-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-dashboard" type="button" role="tab" aria-controls="v-pills-dashboard"
             aria-selected="true">Dashboard</a>
-
         <a class="nav-link link-light link-opacity-50-hover" id="v-pills-courses-tab" data-bs-toggle="pill"
             data-bs-target="#v-pills-courses" type="button" role="tab" aria-controls="v-pills-courses"
-            aria-selected="false">Courses</a>
+            onclick="getTeacherCourses()" aria-selected="false">Courses</a>
+
+        <a class="nav-link link-light link-opacity-50-hover" id="v-pills-create-course-tab" data-bs-toggle="pill"
+            data-bs-target="#v-pills-create-course" type="button" role="tab" aria-controls="v-pills-create-course"
+            aria-selected="false">Create Course</a>
 
 
-        <a class="text-center nav-link link-danger" href="#">Logout</a>
+
+        <a class="text-center nav-link link-danger" href="{%url 'logout'%}">Logout</a>
 
     </div>
 
     <!-- Tab Content tab -->
-    <div class="tab-content w-100 p-4 " id="v-pills-tabContent">
+    <div class="tab-content w-100 p-4 bg-light" id="v-pills-tabContent"
+        style="overflow-y: auto; max-height: calc(100vh - 2rem);">
         <!-- status messeges -->
         <div>
-            {%if courses%}
-            {%for msg in courses%}
+            {%if messages%}
+            {%for msg in messages%}
 
             <div class="row-md-4 alert 
                 {%if msg.tags == 'error'%} alert-danger {%else%} alert-success {%endif%}
@@ -41,31 +46,51 @@
         <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
             aria-labelledby="v-pills-dashboard-tab">
             <h4 class="text-uppercase">{{user_type}} Dashboard</h4>
+            <!-- student card -->
             <div class="row">
+                <div class="col-md-4">
+                    <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
+                        <div class="col-md-8 card-body">
+                            <h5 class="card-text">Total Students</h5>
+                            <h2 class="card-title">{{students}}</h2>
+                        </div>
+                        <!-- {{MEDIA_URL}} on prod -->
+                        <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/student.png">
+                    </div>
+                </div>
                 <!-- Course card -->
                 <div class="col-md-4">
                     <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
                         <div class="col-md-8 card-body">
                             <h5 class="card-text">Total Courses</h5>
-                            <h2 class="card-title">0</h2>
+                            <h2 class="card-title">{{courses}}</h2>
                         </div>
                         <!-- {{MEDIA_URL}} on prod -->
                         <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/course.png">
                     </div>
                 </div>
-
                 <!-- Enrollment card -->
                 <div class="col-md-4">
                     <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
                         <div class="col-md-8 card-body">
                             <h5 class="card-text">Total Enrollments</h5>
-                            <h2 class="card-title">0</h2>
+                            <h2 class="card-title">{{enrollments}}</h2>
                         </div>
                         <!-- {{MEDIA_URL}} on prod -->
                         <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/enroll.png">
                     </div>
                 </div>
-
+                <!-- Teacher card -->
+                <div class="col-md-4">
+                    <div class="flex-row card text-white align-items-center bg-primary bg-gradient mb-3">
+                        <div class="col-md-8 card-body">
+                            <h5 class="card-text">Total Teachers</h5>
+                            <h2 class="card-title">{{teachers}}</h2>
+                        </div>
+                        <!-- {{MEDIA_URL}} on prod -->
+                        <img class="mx-3 opacity-75" width="50" height="50" src="/media/icon/teacher.png">
+                    </div>
+                </div>
             </div>
             <!-- activity -->
             <div class="row px-3">
@@ -73,19 +98,57 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Activity</th>
                             <th>User</th>
+                            <th>Activity</th>
+                            <th>Detail</th>
                             <th>Time</th>
                         </tr>
                     </thead>
                     <tbody id="activity-list">
-                        <!-- fetch from API -->
+                        {%for item in activities %}
+                        <tr>
+                            <td>{{item.username}}</td>
+                            <td>{{item.action}}</td>
+                            <td>{{item.details}}</td>
+                            <td>{{item.timestamp}}</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
 
         </div>
+        <!-- Users tab -->
+        <div class="tab-pane fade" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
+            <h4>Users</h4>
+            <!-- delete option -->
+            <div class="row align-items-center p-2">
+                <label class="col-1 form-label " for="id">Select User</label>
+                <div class="col-5">
+                    <select class="form-select" id="user-select" name="user-select">
+                    </select>
+                </div>
+                <div class="col-4">
+                    <!-- Delete -->
+                    <button class="btn btn-danger" id="delete-user-btn">Delete</button>
+                </div>
+            </div>
+            <table class="table table-striped sw-100">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>last login</th>
 
+                    </tr>
+                </thead>
+                <tbody id="users-list">
+
+                    <!-- fetch from API -->
+                </tbody>
+            </table>
+        </div>
         <!-- Courses tab -->
         <div class="tab-pane fade" id="v-pills-courses" role="tabpanel" aria-labelledby="v-pills-courses-tab">
             <h4>Courses</h4>
@@ -96,10 +159,10 @@
                     <select id="course-select" name="course-select" class="form-select">
                     </select>
                 </div>
-                <!-- Unenroll -->
-                <button class="col-1 btn btn-danger" id="delete-course-btn">Unenroll</button>
-                <!-- Completed -->
-                <button class="col-1 btn btn-success mx-2" id="edit-course-btn">Completed</button>
+                <div class="col">
+                    <!-- Delete -->
+                    <button class="btn btn-danger" id="delete-course-btn">Delete</button>
+                </div>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -115,7 +178,136 @@
                 </tbody>
             </table>
         </div>
+        <!-- Create User tab -->
+        <div class="tab-pane fade p-5" id="v-pills-create-user" role="tabpanel"
+            aria-labelledby="v-pills-create-user-tab">
+            <h4 class="card-title text-center mb-4">Create User</h4>
+            <!--Error Alert -->
+            {% if errors %}
+            <div class="container alert alert-danger">
+                {% for error in errors%}
+                <li>{{error}}</li>
+                {%endfor%}
+            </div>
+            {% endif %}
+            <!-- TODO -->
+            <form method="post" action="{%url 'register'%}">
+                {% csrf_token %}
+                <!-- Name Field -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <!-- Email Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <!-- type Field -->
+                <div class="mb-3">
+                    <label for="user_type" class="form-label">Select Role</label>
+                    <select id="user_type" name="user_type" class="form-select">
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                    </select>
+                </div>
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <!-- Confirm Password Field -->
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+        <!-- Create Course tab -->
+        <div class="tab-pane fade  p-5" id="v-pills-create-course" role="tabpanel"
+            aria-labelledby="v-pills-create-course-tab">
+            <h5 class="text-center">Create a New Course</h5>
+            <!-- TODO -->
+            <form method="post" action="{%url 'create_course'%}">
+                {% csrf_token %}
 
+                <!-- Created By -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Created By</label>
+                    <select class="form-select" name="created_by" id="created-by">
+                        <option value="{{user_id}}">{{username}}</option>
+                    </select>
+                </div>
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Course Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter the course title"
+                        required>
+                </div>
+
+                <!-- Detail -->
+                <div class="mb-3">
+                    <label for="detail" class="form-label">Course Detail</label>
+                    <textarea class="form-control" id="detail" name="detail" rows="5"
+                        placeholder="Enter detailed information about the course" required></textarea>
+                </div>
+
+                <!-- Video Link -->
+                <div class="mb-3">
+                    <label for="video_link" class="form-label">Video Link</label>
+                    <input type="url" class="form-control" id="video_link" name="video_url"
+                        placeholder="Enter a valid video URL" required>
+                </div>
+                <!-- Duration -->
+                <div class="mb-3">
+                    <label for="video_link" class="form-label">Course Duration</label>
+                    <input type="number" class="form-control" id="duration" name="duration" required>
+                </div>
+
+                <!-- Thumbnail -->
+                <div class="mb-3">
+                    <label for="thumbnail" class="form-label">Thumbnail</label>
+                    <input type="file" class="form-control" id="thumbnail" name="thumbnail" accept="image/*">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Create Course</button>
+                </div>
+            </form>
+
+        </div>
+        <!-- Create Enrollment tab -->
+        <div class="tab-pane fade  p-5" id="v-pills-create-enrollment" role="tabpanel"
+            aria-labelledby="v-pills-create-enrollment-tab">
+            <h5 class="text-center">Create an Enrollment</h5>
+            <!-- TODO -->
+            <form method="post" action="{% url 'enroll-course'%}">
+                {% csrf_token %}
+
+                <!-- User -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">User</label>
+                    <select class="form-select" name="user_id" id="enrolled-by">
+                    </select>
+                </div>
+
+                <!-- Course -->
+                <div class="mb-3">
+                    <label for="title" class="form-label">Course</label>
+                    <select class="form-select" name="course_id" id="enroll-courses-list">
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Enroll Course</button>
+            </form>
+        </div>
     </div>
 </div>
 

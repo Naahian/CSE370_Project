@@ -1,19 +1,28 @@
+
 //Fetch API
 async function getUsers() {
-    json = await fetch(`/user`).then(response => response.json());
+    json = await fetch(`/users`).then(response => response.json());
+    console.log(json)
     createUserInfo(json.users)
     createdByOption(json.users)
 }
 
 async function getCourses() {
-    response = await Promise.all([fetch(`/courses`), fetch(`/enrollment`)])
+    response = await Promise.all([fetch(`/courses`), fetch(`/enrollments`)])
+    courses = await response[0].json()
+    enrollment = await response[1].json()
+    createCourseInfo(courses.courses, enrollment.enrollment)
+}
+
+async function getTeacherCourses() {
+    response = await Promise.all([fetch(`/courses?id={{request.user.id}}`), fetch(`/enrollments`)])
     courses = await response[0].json()
     enrollment = await response[1].json()
     createCourseInfo(courses.courses, enrollment.enrollment)
 }
 
 async function enrollNavEvent() {
-    response = await Promise.all([fetch(`/courses`), fetch(`/user`)])
+    response = await Promise.all([fetch(`/courses`), fetch(`/users`)])
     courses = await response[0].json()
     users = await response[1].json()
     EnrollmentOption(users.users, courses.courses)
@@ -25,6 +34,7 @@ function createUserInfo(users) {
     userTable = document.getElementById("users-list");
     userSelect = document.getElementById("user-select");
     createdBy = document.getElementById("created-by");
+
     if (userTable.children.length == 0) {
 
         users.forEach(user => {
@@ -61,7 +71,6 @@ function EnrollmentOption(users, courses) {
             enrolledBy.innerHTML += `<option value=${user.id}>${user.username}</option>`;
         })
         courses.forEach(course => {
-            console.log(course.title)
             coursesList.innerHTML += `<option value=${course.id}>${course.title}</option>`;
         })
     }
@@ -74,13 +83,13 @@ function createCourseInfo(courses, enrollment = []) {
     if (courseTable.children.length == 0) {
 
         courses.forEach(course => {
-            enrollment_count = enrollment.filter(enroll => enroll.course_id === course.id).length
+            enrollment_count = enrollment.filter(enroll => enroll.course.id === course.id).length
             courseSelect.innerHTML += `<option value=${course.id}>${course.title}</option>`;
             row = document.createElement("tr")
 
             date = new Date(course.last_login).toString()
             row.innerHTML += `<td> ${course.title} </td>`
-            row.innerHTML += `<td> ${course.created_by} </td>`
+            row.innerHTML += `<td> ${course.created_by.username} </td>`
             row.innerHTML += `<td> ${enrollment_count} </td>`
 
 
@@ -92,9 +101,16 @@ function createCourseInfo(courses, enrollment = []) {
 
 // Delete User Button Event
 document.getElementById("delete-user-btn").addEventListener("click", (e) => {
-    console.log("GG")
     userId = document.getElementById("user-select").value;
     base_url = window.location.origin
-    window.location.href = `${base_url}/user/delete?id=${userId}`
+    window.location.href = `${base_url}/users/delete?id=${userId}`
+    console.log(`deleted user ${courseId}`)
 })
 
+// Delete Course Button Event
+document.getElementById("delete-course-btn").addEventListener("click", (e) => {
+    courseId = document.getElementById("course-select").value;
+    base_url = window.location.origin
+    window.location.href = `${base_url}/courses/delete?id=${courseId}`
+    console.log(`deleted course ${courseId}`)
+})

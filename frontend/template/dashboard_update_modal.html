@@ -1,0 +1,124 @@
+<!-- Update User Modal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateUserForm" action="/update-user" method="POST">
+                    <!-- CSRF Token -->
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                    <!-- Username Field -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+
+                    <!-- Role Field -->
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="" disabled selected>Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="editor">Editor</option>
+                            <option value="viewer">Viewer</option>
+                        </select>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Course Modal -->
+<div class="modal fade" id="updateCourseModal" tabindex="-1" aria-labelledby="updateCourseModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateCourseModalLabel">Update Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- TODO -->
+                <form id="updateCourseForm" action="" method="POST" enctype="multipart/form-data">
+                    <!-- CSRF Token -->
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                    <!-- Course Title -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Course Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ course.title }}"
+                            required>
+                    </div>
+
+                    <!-- Created By (User) Field -->
+                    <div class="mb-3">
+                        <label for="created_by" class="form-label">Created By</label>
+                        <select class="form-select" id="created_by" name="created_by" required>
+                        </select>
+                    </div>
+
+                    <!-- Course Detail -->
+                    <div class="mb-3">
+                        <label for="detail" class="form-label">Course Detail</label>
+                        <textarea class="form-control" id="detail" name="detail" rows="3"
+                            required>{{ course.detail }}</textarea>
+                    </div>
+
+                    <!-- Course Duration -->
+                    <div class="mb-3">
+                        <label for="duration" class="form-label">Duration</label>
+                        <input type="text" class="form-control" id="duration" name="duration"
+                            value="{{ course.duration }}" required>
+                    </div>
+
+                    <!-- Video URL -->
+                    <div class="mb-3">
+                        <label for="video_url" class="form-label">Video URL</label>
+                        <input type="url" class="form-control" id="video_url" name="video_url"
+                            value="{{ course.video_url }}" required>
+                    </div>
+
+                    <!-- Thumbnail -->
+                    <div class="mb-3">
+                        <label for="thumbnail" class="form-label">Thumbnail</label>
+                        <input type="file" class="form-control" id="thumbnail" name="thumbnail">
+                        {% if course.thumbnail %}
+                        <div class="mt-2">
+                            <img src="{{ course.thumbnail.url }}" alt="Current Thumbnail" class="img-fluid" width="150">
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Course</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
