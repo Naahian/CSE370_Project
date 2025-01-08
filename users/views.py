@@ -90,7 +90,7 @@ def login_view(request):
                 else:
                     request.session.set_expiry(0)  
 
-                return redirect('success')  
+                return redirect('home')  
             else:
                 messages.error(request, 'Invalid email or password')
                 return redirect('login')
@@ -105,6 +105,8 @@ def logout_view(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
     return redirect('login')
+
+
 
 
 @never_cache

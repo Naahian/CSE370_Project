@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -12,15 +13,19 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         body {
-            background-image: url("{% static 'images/img.jpg' %}");
+            background-image: url("/media/images/img.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
         }
     </style>
 </head>
+
 <body>
     <div class="main">
+        <a href="/">
+            <h1 style="text-align: center;">EdTech</h1>
+        </a>
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
             <h1>Login</h1>
@@ -28,29 +33,29 @@
             {% if messages %}
             <div>
                 {% for i in messages %}
-                    <p style="color: red;">{{ i }}</p>
+                <p style="color: red;">{{ i }}</p>
                 {% endfor %}
             </div>
-            {% endif %}           
+            {% endif %}
             <div class="first">
                 <p>Email address</p>
                 <input type="email" name="email" placeholder="Please enter your email address" required>
             </div>
-            
+
             <div class="first">
                 <p>Password</p>
                 <input type="password" name="password" placeholder="Please enter your password" required>
             </div>
-            
+
             <div class="remember">
                 <label>
                     <input type="checkbox" name="remember_me"> Remember me
                 </label>
                 <a href="#">Forgot password</a>
             </div>
-            
+
             <button type="submit" class="btn">Login</button>
-            
+
             <div class="registration">
                 <p>Don't have an account?<a href="{% url 'register' %}">Register</a></p>
             </div>
@@ -58,4 +63,5 @@
     </div>
 
 </body>
+
 </html>

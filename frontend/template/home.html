@@ -33,21 +33,36 @@
 
             </ul>
         </nav>
-        <div id="login" class="fas fa-user circle">
 
+        <div class="align-items-center">
+            <span id="login" class="fas fa-user circle">
+            </span>
+            {%if username%}
+            <h6 class="text-white">
+                {{username}}
+            </h6>
+            {%else%}
+            <a class="btn btn-warning px-3" href="/users/login">
+                Login
+            </a>
+            {%endif%}
         </div>
+
     </header>
     {%block content%}
     <!--home section starts-->
     <section class="home" id="home">
         <!--img src="images/home.png"-->
         <!--img src="images/home.png" alt=""-->
+
         <h1>Learn, Grow, and Succeed<br> All in One Platform</h1>
+
         <p>
             Empowering learners, educators, and dreamer with innovative tools and personalized learning experiences. Our
             platform bridges the gap between knowledge and application, making education accessible, engaging, and
             effective for everyone. Start your journey today and unlock the potential to achieve more</p>
-        <a href="#"><button class='customBtn'>Get started</button></a>
+
+        <a href="/users/register"><button class='customBtn'>Get started</button></a>
 
     </section>
     <!--About section-->
@@ -88,7 +103,7 @@
                     </p>
                     <div class="info">
                         <h4><i class='far fa-clock'></i> 2 hours</h4>
-                        <a href="/course/1" class="customBtn text-decoration-none">View Course</a>
+                        <a href="/detail" class="customBtn text-decoration-none">View Course</a>
                     </div>
 
                 </div>
@@ -104,7 +119,7 @@
                     </p>
                     <div class="info">
                         <h4><i class='far fa-clock'></i> 2 hours</h4>
-                        <button class="customBtn">View Course</button>
+                        <a href="/detail" class="customBtn">View Course</a>
                     </div>
 
                 </div>
@@ -136,7 +151,7 @@
                     </p>
                     <div class="info">
                         <h4><i class='far fa-clock'></i> 2 hours</h4>
-                        <button class="customBtn">View Course</button>
+                        <a href="/detail" class="customBtn">View Course</a>
                     </div>
 
                 </div>
