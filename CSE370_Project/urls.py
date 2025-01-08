@@ -19,6 +19,10 @@ def detail(request:HttpRequest):
     return render(request, "course_detail.html")
 
 
+
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -27,6 +31,7 @@ urlpatterns = [
     path('enrollments/', include("enrollments.urls")),
     path('users/', include("users.urls")),   
     path('detail/', detail, name="detail"),   
+    path('profiles/', include("profiles.urls")),   
 ]
 
 if settings.DEBUG:

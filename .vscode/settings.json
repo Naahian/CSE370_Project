@@ -1,6 +1,16 @@
 {
     "files.exclude": {
         "myapp": false,
-        "myapp\\.vscode": false
+        "myapp\\.vscode": false,
+        ".vscode": false,
+        "courses": false,
+        "CSE370_Project": false,
+        "dashboard": false,
+        "enrollments": false,
+        "media": false,
+        "users": false,
+        "db.sqlite3": false,
+        "manage.py": false,
+        "README.md": false
     }
 }
