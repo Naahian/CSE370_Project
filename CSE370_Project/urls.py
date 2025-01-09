@@ -19,6 +19,10 @@ def allCourse(request:HttpRequest):
     return render(request, "all_courses.html")
 
 
+
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -27,7 +31,8 @@ urlpatterns = [
     path('enrollments/', include("enrollments.urls")),
     path('users/', include("users.urls")),   
     path('profiles/', include("profiles.urls")),   
-    path('all_courses/', allCourse, name='allCourse'),   
+    path('all_courses/', allCourse, name='allCourse'),    
+    path('profiles/', include("profiles.urls")),   
 ]
 
 if settings.DEBUG:
