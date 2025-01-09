@@ -55,4 +55,5 @@ def deleteEnrollment(request):
 
 
 def updateEnrollment(request):
+    #UPDATE Enrollment SET course_id = <new_course_id> WHERE id = <enrollment_id>;
     return JsonResponse({})
