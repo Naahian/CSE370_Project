@@ -15,9 +15,7 @@
                         <span class="fw-semibold">{{duration}} hours</span>
 
                     </p>
-                    {%if not request.user.is_authenticated%}
-                    <a href="/users/register" class="btn btn-success">Enroll Now</a>
-                    {%else%}
+                    {%if request.user.is_authenticated%}
                     {%if enrolled%}
                     <button class="btn btn-success" disabled>Enrolled</a>
                         {%else%}
@@ -29,6 +27,8 @@
                             <button type="submit" class="btn btn-success">Enroll Now</button>
                         </form>
                         {%endif%}
+                        {%else%}
+                        <a href="/users/register" class="btn btn-success">Enroll Now</a>
                         {%endif%}
                 </div>
 
