@@ -66,7 +66,7 @@ function createCourseInfo(courses, enrollment = []) {
 
             date = new Date(course.last_login).toString()
             row.innerHTML += `<td> ${course.title} </td>`
-            row.innerHTML += `<td> ${course.created_by} </td>`
+            row.innerHTML += `<td> ${course.created_by__username} </td>`
             row.innerHTML += `<td> ${enrollment_count} </td>`
 
 

@@ -58,7 +58,6 @@ def register_view(request:HttpRequest):
             #SELECT COUNT(*) FROM user WHERE email = '<email>';
 
         group = Group.objects.get(name=user_type)
-        user = User.objects.create_user(username=username,email=email,password=password)
         #SELECT * FROM auth_group WHERE name = '<user_type>' LIMIT 1;
 
 
@@ -77,9 +76,6 @@ def register_view(request:HttpRequest):
         Activity.objects.create(user=request.user, action="USER_CREATED", details=f"Created user {user.username}")
         Profile.objects.create(user=user, bio="bio",location="Dhaka")
         #INSERT INTO activity (user_id, action, details) VALUES (<request_user_id>, 'USER_CREATED', 'Created user <username>');
-
-        Profile.objects.create(user=user, bio="bio",location="Dhaka")
-        #INSERT INTO profile (user_id, bio, location) VALUES (<user_id>, 'bio', 'Dhaka');
 
         #log
         if(not request.user.is_authenticated):
@@ -146,7 +142,7 @@ def deleteUser(request):
         if(user):
             user.delete()
             #DELETE FROM auth_user WHERE id = '<id>';
-            Activity.objects.create(user=request.user, action="USER_DELETED", details=f"Created user {user.username}")
+            Activity.objects.create(user=request.user, action="USER_DELETED", details=f"Deleted user {user.username}")
             #INSERT INTO activity (user_id, action, details, created_at) VALUES ('<current_user_id>', 'USER_DELETED', 'Deleted user <username>', '<timestamp>');
 
             messages.success(request, "user deleted successfully!")
