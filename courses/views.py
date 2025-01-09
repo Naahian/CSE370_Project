@@ -47,6 +47,8 @@ def create_course(request):
         created_by = User.objects.filter(id=created_by_id).first()
         
         # Create the course
+        #INSERT INTO course (title, detail, duration, created_by_id, video_url, thumbnail)VALUES ('<title>', '<detail>', '<duration>', <created_by_id>, '<video_url>', '<thumbnail>');
+
         course = Course.objects.create(
             title=title,
             detail=detail,
@@ -67,6 +69,11 @@ def create_course(request):
 @login_required
 def update_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+  
+#SELECT * FROM courses WHERE id = ?;
+#UPDATE courses_course
+#SET title = ‘’, detail = ?, duration = ?, video_url = ?, created_by = ?, thumbnail = ?WHERE id = ?;
+
 
     if request.method == 'POST':
         course.title = request.POST.get('title')
@@ -86,6 +93,11 @@ def update_course(request, course_id):
 
 @login_required
 def delete_course(request):
+    #SELECT * FROM courses WHERE id = ?;
+
+    #DELETE FROM courses WHERE id = ?;
+
+
     if request.GET['id']:
         course = Course.objects.filter(id = request.GET['id']).first()
         if(course):
