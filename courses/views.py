@@ -16,12 +16,17 @@ def get_courses(request):
     course_id = request.GET.get("id")
     course_user = request.GET.get("username")
     if(course_id):
+        #SELECT * FROM course WHERE id = <course_id>;
         
         course = Course.objects.all().filter(id=course_id).first()
         return JsonResponse(course.serialize())
     if(course_user):
+        #SELECT * FROM auth_user WHERE username = '<course_user>';
         user = User.objects.filter(username=course_user).first()
         if user:
+            # SELECT * FROM course WHERE created_by_id = <user_id>;
+
+
             course = Course.objects.filter(created_by=user).first()
             if course:
                 return JsonResponse(course.serialize(), safe=False)
