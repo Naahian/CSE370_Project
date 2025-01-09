@@ -40,9 +40,9 @@ def createEnrollment(request):
         # Create the enrollment
         print("Create the enrollment")
         enrollment = Enrollment.objects.create(user=request.user, course=course)
-        #INSERT INTO myapp_enrollment (user_id, course_id, enrolled_at) VALUES (<user_id>, <course_id>);
+        #INSERT INTO myapp_enrollment (user_id, course_id, enrolled_at) VALUES (<user_id>, <course_id>, NOW());
         Activity.objects.create(user=request.user, action="ENROLLED", details=f"Enrolled course {course.title}")
-        #INSERT INTO myapp_activity (user_id, action, details, created_at) VALUES (<user_id>, 'ENROLLED', 'Enrolled course <course.title>');
+        #INSERT INTO myapp_activity (user_id, action, details, created_at) VALUES (<user_id>, 'ENROLLED', 'Enrolled course <course.title>', NOW());
         messages.success(request, f"You have successfully enrolled in {course.title}!")
     return redirect('courses', course_id=course.id)
 
