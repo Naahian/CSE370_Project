@@ -49,6 +49,7 @@ def createEnrollment(request):
 
 @login_required(login_url="/user/login")
 def deleteEnrollment(request):
+    #DELETE FROM Enrollment WHERE id = <enrollment_id>;
     return JsonResponse({})
 
 
