@@ -155,8 +155,11 @@ def deleteUser(request):
 
 def getUsertype(user:User):
      if(user.groups.filter(name="admin").exists()):
+        #SELECT 1  FROM auth_user_groups WHERE user_id = <user_id> AND group_id = (SELECT id FROM auth_group WHERE name = 'admin')LIMIT 1;
         return "admin"
      elif(user.groups.filter(name="student").exists()):
+        #SELECT 1 FROM auth_user_groups WHERE user_id = <user_id> AND group_id = (SELECT id FROM auth_group WHERE name = 'student')LIMIT 1;
         return "student"
      elif(user.groups.filter(name="teacher").exists()):
+        #SELECT 1 FROM auth_user_groups WHERE user_id = <user_id> AND group_id = (SELECT id FROM auth_group WHERE name = 'teacher')LIMIT 1;
         return "teacher"
