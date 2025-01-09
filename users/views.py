@@ -58,10 +58,7 @@ def register_view(request:HttpRequest):
             #SELECT COUNT(*) FROM user WHERE email = '<email>';
 
         group = Group.objects.get(name=user_type)
-<<<<<<< HEAD
         user = User.objects.create_user(username=username,email=email,password=password)
-=======
->>>>>>> 403126dd489d6f09415fa621e93a95e570920f0c
         #SELECT * FROM auth_group WHERE name = '<user_type>' LIMIT 1;
 
 
