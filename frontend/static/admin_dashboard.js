@@ -71,6 +71,7 @@ function EnrollmentOption(users, courses) {
             enrolledBy.innerHTML += `<option value=${user.id}>${user.username}</option>`;
         })
         courses.forEach(course => {
+            console.log(course)
             coursesList.innerHTML += `<option value=${course.id}>${course.title}</option>`;
         })
     }
@@ -83,13 +84,14 @@ function createCourseInfo(courses, enrollment = []) {
     if (courseTable.children.length == 0) {
 
         courses.forEach(course => {
+            console.log(course)
             enrollment_count = enrollment.filter(enroll => enroll.course.id === course.id).length
             courseSelect.innerHTML += `<option value=${course.id}>${course.title}</option>`;
             row = document.createElement("tr")
 
             date = new Date(course.last_login).toString()
             row.innerHTML += `<td> ${course.title} </td>`
-            row.innerHTML += `<td> ${course.created_by.username} </td>`
+            row.innerHTML += `<td> ${course.created_by} </td>`
             row.innerHTML += `<td> ${enrollment_count} </td>`
 
 

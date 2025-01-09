@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 from dashboard.models import Activity
+from profiles.models import Profile
 
 @login_required(login_url='login/')
 def getAllUsers(request):
@@ -25,6 +26,7 @@ def getAllUsers(request):
         return JsonResponse({"users":users})
     else:
         return redirect("login")
+
 
 
 def register_view(request:HttpRequest): 
@@ -48,16 +50,13 @@ def register_view(request:HttpRequest):
             return redirect('register')
 
         group = Group.objects.get(name=user_type)
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
-        )
+        user = User.objects.create_user(username=username,email=email,password=password)
 
         #create user
         user.save()
         user.groups.add(group)
         Activity.objects.create(user=request.user, action="USER_CREATED", details=f"Created user {user.username}")
+        Profile.objects.create(user=user, bio="bio",location="Dhaka")
 
         #log
         if(not request.user.is_authenticated):
@@ -112,7 +111,7 @@ def logout_view(request):
 @never_cache
 @login_required(login_url='/login/')
 def success_view(request):
-    return render(request, 'success.html')
+    return render(request, 'home.html')
 
 @login_required
 def deleteUser(request):

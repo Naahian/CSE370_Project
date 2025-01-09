@@ -5,8 +5,8 @@ from courses.models import Course
 
 # Create your models here.
 class Enrollment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, db_index=True)
     completed = models.BooleanField(default=False)
     enrolled_at = models.DateTimeField(auto_now_add=True)
     

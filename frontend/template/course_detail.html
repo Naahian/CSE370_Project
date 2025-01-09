@@ -7,13 +7,12 @@
         <!-- Course Thumbnail and Info -->
         <div class="col-md-4">
             <div class="card">
-                <img src="https://via.placeholder.com/350x200" alt="Course Thumbnail" class="course-thumbnail">
+                <img src="{{thumbnail}}" alt="Course Thumbnail" class="course-thumbnail">
                 <div class="card-body">
-                    <p class="text-muted">Created on: <span class="fw-semibold">January 1, 2025</span></p>
                     <p class="course-info">
                         <i class="fas fa-clock" style="color: orange;"></i>
                         Duration:
-                        <span class="fw-semibold">5 hours</span>
+                        <span class="fw-semibold">{{duration}} hours</span>
                     </p>
                     <!-- Enroll Button -->
                     <a href="#" class="btn btn-success">Enroll Now</a>
@@ -25,26 +24,19 @@
         <!-- Course Details -->
         <div class="col-md-8">
             <div class="card p-4">
-                <h2 class="fw-bold">Course Title: Learn Web Development</h2>
-                <p class="text-muted">By: <span class="fw-semibold">John Doe</span></p>
+                <h2 class="fw-bold">Course Title: {{title}}</h2>
+                <p class="text-muted">By: <span class="fw-semibold">{{created_by.username}}</span></p>
 
 
                 <!-- YouTube iframe -->
                 <div class="my-3">
-                    <iframe width="100%" height="400" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
-                        allowfullscreen></iframe>
+                    <iframe width="100%" height="400" src="{{video_url}}" frameborder="0" allowfullscreen></iframe>
                 </div>
 
                 <!-- Course Details Text -->
                 <div class="course-details">
                     <h4>Course Detail</h4>
-                    <p>This course is designed for beginners who want to learn the fundamentals of web development.
-                        It covers HTML, CSS, JavaScript, and much more to get you started with building websites
-                        from scratch.</p>
-                    <p>Throughout this course, you will have hands-on practice and challenges to ensure that you
-                        learn how to write code and build your own projects. Whether you're looking to start a
-                        career in web development or simply want to understand how websites work, this course is the
-                        perfect starting point!</p>
+                    <p>{{detail}}</p>
                 </div>
 
             </div>

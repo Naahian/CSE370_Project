@@ -12,12 +12,10 @@ from dashboard.models import Activity
 
 
 def get_courses(request):
-    courses = Course.objects.filter()
     course_id = request.GET.get("id")
     course_user = request.GET.get("username")
     if(course_id):
-        
-        course = Course.objects.all().filter(id=course_id).first()
+        course = Course.objects.filter(id=course_id).first()
         return JsonResponse(course.serialize())
     if(course_user):
         user = User.objects.filter(username=course_user).first()
@@ -28,7 +26,12 @@ def get_courses(request):
             return JsonResponse({"error": "No courses found for the user"}, status=404)
         return JsonResponse({"error": "User not found"}, status=404)
         
-    return JsonResponse({"courses": [course.serialize() for course in courses]})
+    # Optimized query with select_related for related model and only specific fields
+    courses = Course.objects.values('id','title', 'created_by')
+    for c in courses:
+        c["created_by"] = User.objects.only('id',"username").get(id=c["created_by"]).username
+    return JsonResponse({"courses": list(courses)})
+   
    
 @login_required
 def create_course(request):
@@ -39,22 +42,18 @@ def create_course(request):
         duration = request.POST.get('duration')
         video_url = request.POST.get('video_url')
         thumbnail = request.FILES.get('thumbnail')  # For file uploads
-        created_by = User.objects.filter(id=created_by_id).first()
+        created_by = User.objects.only('id').get(id=created_by_id)
         
         # Create the course
-        course = Course.objects.create(
-            title=title,
-            detail=detail,
-            duration=duration,
-            created_by=created_by,
-            video_url=video_url,
-            thumbnail=thumbnail,
-        )
-        Activity.objects.create(user=request.user, action="COURSE_CREATED", details=f"Created course {course.title}")
-        
-        
-        messages.success(request, "Course created successfully!")
-        return redirect('dashboard')  # Redirect to the course list
+        course = Course.objects.create( title=title, detail=detail, duration=duration, created_by=created_by, video_url=video_url, thumbnail=thumbnail)
+        if(course):
+            course.save()
+            Activity.objects.create(user=request.user, action="COURSE_CREATED", details=f"Created course {course.title}")
+            messages.success(request, "Course created successfully!")
+            return redirect('dashboard')  # Redirect to the course list
+        else:
+            messages.error(request, "Failed to create Course!")
+            return redirect('dashboard')  # Redirect to the course list
 
     return render(request, 'create_course.html')
 
@@ -85,7 +84,8 @@ def delete_course(request):
         course = Course.objects.filter(id = request.GET['id']).first()
         if(course):
             course.delete()
-            Activity.objects.create(user=request.user, action="COURSE_DELETED", details=f"Created user {user.username}")
+
+            Activity.objects.create(user=request.user, action="COURSE_DELETED", details=f"deleted course {course.title}")
 
             messages.success(request, "course deleted successfully!")
         else:
@@ -93,3 +93,14 @@ def delete_course(request):
         return redirect('dashboard')  # Redirect to the course list
 
     return render(request, 'dashboard.html', {'course': course})
+
+def course_detail(request):
+    course_id = request.GET.get("id")
+    if(course_id):
+        course = Course.objects.filter(id=course_id).first().serialize()
+        print(course)
+        return render(request, 'course_detail.html', context=course)
+    else:
+        messages.error(request,"course does not exist!")
+        return redirect("home")
+        

@@ -11,7 +11,7 @@ class Activity(models.Model):
         ("COMPLETED", "Enrollment Completed"),
     ]
         
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     timestamp = models.DateTimeField(auto_now_add=True)
     details = models.TextField(blank=True) 

@@ -29,14 +29,14 @@ def createEnrollment(request):
 
     if Enrollment.objects.filter(user=user, course=course).exists():
         messages.error(request, "You are already enrolled in this course.")
-        print("Error")
     else:
         # Create the enrollment
         print("Create the enrollment")
         enrollment = Enrollment.objects.create(user=request.user, course=course)
         Activity.objects.create(user=request.user, action="ENROLLED", details=f"Enrolled course {course.title}")
         messages.success(request, f"You have successfully enrolled in {course.title}!")
-    return redirect('courses', course_id=course.id)
+        
+    return redirect('dashboard')
 
 
 @login_required(login_url="/user/login")

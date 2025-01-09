@@ -14,7 +14,9 @@ SECRET_KEY = 'django-insecure-qbjwx!7((*loa#23-qy0ss6i5nl244_fc49hyie6tdp22hclc0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # "http://127.0.0.1/"
+    ]
 
 
 # Application definition
@@ -29,6 +31,7 @@ INSTALLED_APPS = [
     'courses',
     'enrollments',
     'dashboard',
+    'profiles',
 ]
 
 MIDDLEWARE = [
@@ -39,16 +42,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    # 'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 ]
+
+
 
 ROOT_URLCONF = 'CSE370_Project.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'frontend'/'template'],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend','template')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,14 +73,10 @@ WSGI_APPLICATION = 'CSE370_Project.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-'default': {
-'ENGINE': 'django.db.backends.mysql',
-'NAME': '370project',
-'USER': 'root',
-'PASSWORD': '',
-'HOST': 'localhost',
-'PORT': '3306',
-}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -121,6 +122,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "frontend" / "static",
 ]
+# STATIC_ROOT = os.path.join(BASE_DIR , "frontend" , "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

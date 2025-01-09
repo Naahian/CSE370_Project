@@ -7,12 +7,13 @@ def get_default_user():
 
 class Course(models.Model):
     title = models.CharField(max_length=255)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=get_default_user)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, default=get_default_user, db_index=True)
     detail = models.TextField()
     duration = models.CharField(max_length=50)
     video_url = models.URLField(max_length=300,null=False, blank=True)
     thumbnail = models.ImageField(upload_to='course_thumbnails/', blank=True, null=True)
     
+
 
     def __str__(self):
         return self.title

@@ -219,6 +219,7 @@
                 <!-- TODO -->
                 <form method="post" action="{%url 'register'%}">
                     {% csrf_token %}
+                    {{ form.as_p }}
                     <!-- Name Field -->
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
