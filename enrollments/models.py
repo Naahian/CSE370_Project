@@ -20,6 +20,7 @@ class Enrollment(models.Model):
             "course": {
                 "id":self.course.id,
                 "title":self.course.title,
+                "created_by":self.course.created_by.username,
             },
             "completed":self.completed
         }

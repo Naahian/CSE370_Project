@@ -9,27 +9,19 @@ from courses.models import Course
 from django.contrib.auth.models import User
 
 from dashboard.models import Activity
+from enrollments.models import Enrollment
 
 
 def get_courses(request):
     course_id = request.GET.get("id")
-    course_user = request.GET.get("username")
+    user_id = request.GET.get("user_id")
     if(course_id):
         course = Course.objects.filter(id=course_id).first()
         return JsonResponse(course.serialize())
-    if(course_user):
-        user = User.objects.filter(username=course_user).first()
-        if user:
-            course = Course.objects.filter(created_by=user).first()
-            if course:
-                return JsonResponse(course.serialize(), safe=False)
-            return JsonResponse({"error": "No courses found for the user"}, status=404)
-        return JsonResponse({"error": "User not found"}, status=404)
         
     # Optimized query with select_related for related model and only specific fields
-    courses = Course.objects.values('id','title', 'created_by')
-    for c in courses:
-        c["created_by"] = User.objects.only('id',"username").get(id=c["created_by"]).username
+    courses = Course.objects.values('id','title', 'created_by__username','thumbnail')
+
     return JsonResponse({"courses": list(courses)})
    
    
@@ -97,9 +89,11 @@ def delete_course(request):
 def course_detail(request):
     course_id = request.GET.get("id")
     if(course_id):
-        course = Course.objects.filter(id=course_id).first().serialize()
-        print(course)
-        return render(request, 'course_detail.html', context=course)
+        context = Course.objects.filter(id=course_id).first().serialize()
+        enrolled = Enrollment.objects.filter(user__id=request.user.id)
+        if(enrolled): context["enrolled"] = True
+        else:context["enrolled"] = True
+        return render(request, 'course_detail.html', context=context)
     else:
         messages.error(request,"course does not exist!")
         return redirect("home")

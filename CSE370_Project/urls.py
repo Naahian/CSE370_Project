@@ -15,6 +15,10 @@ def home(request:HttpRequest):
         print(context)
     return render(request, "home.html", context= context)
 
+def allCourse(request:HttpRequest):
+    return render(request, "all_courses.html")
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -23,6 +27,7 @@ urlpatterns = [
     path('enrollments/', include("enrollments.urls")),
     path('users/', include("users.urls")),   
     path('profiles/', include("profiles.urls")),   
+    path('all_courses/', allCourse, name='allCourse'),   
 ]
 
 if settings.DEBUG:

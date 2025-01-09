@@ -1,51 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <section class="course-list">
-        <h1 class="heading">Course List</h1>
-        <div class="grid-container">
-            <!-- Card 1 -->
-            <div class="course-card">
-                <img src="images/front.png" alt="Front-End Development">
-                <h3>Front-End Development</h3>
-                <p>Learn to build responsive, interactive websites using HTML, CSS, and JavaScript.</p>
-                <a href="front.html#about-course-1" class="btn">Learn More</a>
-            </div>
-            
-            <!-- Card 2 -->
-            <div class="course-card">
-                <img src="images/backend11.png" alt="Back-End Development">
-                <h3>Back-End Development</h3>
-                <p>Master server-side skills like databases, APIs, and frameworks to build scalable applications.</p>
-                <a href="back.html#back-end" class="btn">Learn More</a>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="course-card">
-                <img src="images/data.png" alt="Data Science">
-                <h3>Data Science</h3>
-                <p>Gain skills in data analysis, visualization, and machine learning with real-world datasets.</p>
-                <a href="data.html#data-science" class="btn">Learn More</a>
-            </div>
-            
-            <!-- Card 4 -->
-            <div class="course-card">
-                <img src="images/Art.png" alt="Artificial Intelligence">
-                <h3>Artificial Intelligence</h3>
-                <p>Explore AI fundamentals, machine learning, and deep learning to solve real-world problems.</p>
-                <a href="ai.html#ai" class="btn">Learn More</a>
-            </div>
-        </div>
-    </section>
-    <script src="index.js"></script>
-    
+{%extends 'home.html'%}
+{%load static%}
+{%block content%}
+<!-- custom style -->
+<link rel="stylesheet" type="text/css" href="{% static 'all_course.css' %}">
 
-    
-</body>
-</html>
+<section class="course-list">
+    <h1 class="heading">Course List</h1>
+    <div class="grid-container">
+
+
+    </div>
+</section>
+
+<script>
+
+    window.onload = async function () {
+        try {
+            // Fetch course data from the server
+            const response = await fetch('/courses');
+
+            // Check if the response is successful
+            if (!response.ok) {
+                throw new Error('Failed to fetch courses');
+            }
+
+            // Parse the JSON data from the response
+            var courses = await response.json();
+            courses = courses.courses
+            // Get the container where the courses will be displayed
+            const gridContainer = document.querySelector('.grid-container');
+
+            // Loop through the courses and create the course cards dynamically
+            courses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.classList.add('course-card');
+
+                // Create the HTML structure for each course card
+                courseCard.innerHTML = `
+               <img src="${('/media/' + course.thumbnail)}" alt="${course.title}">
+               <h3>${course.title}</h3>
+               <p>created by ${course.created_by__username}</p>
+               <a href="/courses/detail?id=${course.id}" class="btn">Learn More</a>
+           `;
+
+                // Append the new card to the grid container
+                gridContainer.appendChild(courseCard);
+            });
+
+        } catch (error) {
+            console.error('Error loading courses:', error);
+        }
+    };
+
+</script>
+{%endblock%}

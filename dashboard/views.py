@@ -50,8 +50,8 @@ def studentDashboard(request, usertype="student"):
         "user_id": request.user.id,
         "username": request.user.username,
         "user_type": usertype,
-        "enrollments": len(Enrollment.objects.all()),  
-        "enrollments": len(Enrollment.objects.all()),  
+        "courses": len(Course.objects.all()),  
+        "enrollments": len(Enrollment.objects.filter(user__id=request.user.id)),  
         "activities":activities,
     }
     return render(request, "student_dashboard.html", context)
@@ -68,8 +68,8 @@ def teacherDashboard(request, usertype="teacher"):
         "user_id": request.user.id,
         "username": request.user.username,
         "user_type": usertype,
-        "courses": len(Course.objects.all()),
-        "enrollments": len(Enrollment.objects.all()),  
+        "courses": len(Course.objects.filter()),
+        "enrollments": len(Enrollment.objects.filter(course__created_by=request.user.id)),  
         "activities":activities,
     }
     return render(request, "teacher_dashboard.html", context)

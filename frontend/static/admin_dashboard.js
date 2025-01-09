@@ -2,7 +2,6 @@
 //Fetch API
 async function getUsers() {
     json = await fetch(`/users`).then(response => response.json());
-    console.log(json)
     createUserInfo(json.users)
     createdByOption(json.users)
 }
@@ -14,11 +13,11 @@ async function getCourses() {
     createCourseInfo(courses.courses, enrollment.enrollment)
 }
 
-async function getTeacherCourses() {
-    response = await Promise.all([fetch(`/courses?id={{request.user.id}}`), fetch(`/enrollments`)])
-    courses = await response[0].json()
-    enrollment = await response[1].json()
-    createCourseInfo(courses.courses, enrollment.enrollment)
+
+
+async function getStudentCourses() {
+    json = await fetch(`/enrollments?user_id=${window.djangoVars.userId}`).then(response => response.json());
+    createEnrollInfo(json.enrollment)
 }
 
 async function enrollNavEvent() {
@@ -53,30 +52,6 @@ function createUserInfo(users) {
     }
 }
 
-function createdByOption(users) {
-    createdBy = document.getElementById("created-by");
-    if (createdBy.children.length == 0) {
-        users.forEach(user => {
-            if (user.user_type == "teacher")
-                createdBy.innerHTML += `<option value=${user.id}>${user.username}</option>`;
-        })
-    }
-}
-
-function EnrollmentOption(users, courses) {
-    enrolledBy = document.getElementById("enrolled-by");
-    coursesList = document.getElementById("enroll-courses-list");
-    if (coursesList.children.length == 0) {
-        users.forEach(user => {
-            enrolledBy.innerHTML += `<option value=${user.id}>${user.username}</option>`;
-        })
-        courses.forEach(course => {
-            console.log(course)
-            coursesList.innerHTML += `<option value=${course.id}>${course.title}</option>`;
-        })
-    }
-
-}
 
 function createCourseInfo(courses, enrollment = []) {
     courseTable = document.getElementById("courses-list");
@@ -100,6 +75,51 @@ function createCourseInfo(courses, enrollment = []) {
     }
 }
 
+function createEnrollInfo(enrollment = []) {
+    courseTable = document.getElementById("courses-list");
+    courseSelect = document.getElementById("course-select");
+    if (courseTable.children.length == 0) {
+
+        enrollment.forEach(enroll => {
+
+            courseSelect.innerHTML += `<option value=${enroll.course.id}>${enroll.course.title}</option>`;
+            row = document.createElement("tr")
+
+            row.innerHTML += `<td> ${enroll.course.title} </td>`
+            row.innerHTML += `<td> ${enroll.course.created_by} </td>`
+
+
+
+            courseTable.appendChild(row)
+        });
+    }
+}
+
+
+
+function createdByOption(users) {
+    createdBy = document.getElementById("created-by");
+    if (createdBy.children.length == 0) {
+        users.forEach(user => {
+            if (user.user_type == "teacher")
+                createdBy.innerHTML += `<option value=${user.id}>${user.username}</option>`;
+        })
+    }
+}
+
+function EnrollmentOption(users, courses) {
+    enrolledBy = document.getElementById("enrolled-by");
+    coursesList = document.getElementById("enroll-courses-list");
+    if (coursesList.children.length == 0) {
+        users.forEach(user => {
+            enrolledBy.innerHTML += `<option value=${user.id}>${user.username}</option>`;
+        })
+        courses.forEach(course => {
+            coursesList.innerHTML += `<option value=${course.id}>${course.title}</option>`;
+        })
+    }
+
+}
 
 // Delete User Button Event
 document.getElementById("delete-user-btn").addEventListener("click", (e) => {
