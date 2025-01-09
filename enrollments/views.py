@@ -22,6 +22,7 @@ def getEnrollments(request):
         return JsonResponse({"enrollment":enrolls})
         
         
+        
     enrolls = [enrollment.serializeJSON() for enrollment in Enrollment.objects.all()]
     #SELECT * FROM myapp_enrollment;
     return JsonResponse({"enrollment":enrolls})
