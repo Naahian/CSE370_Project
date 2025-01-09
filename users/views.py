@@ -14,15 +14,21 @@ from profiles.models import Profile
 def getAllUsers(request):
     if(getUsertype(request.user) == "admin"):
         id = request.GET.get("id")
+        #SELECT usertype FROM auth_user WHERE id = <request.user.id>;
         if(id):
             user = User.objects.values().filter(id=id).first()
             return JsonResponse(user)
-        
+            #SELECT * FROM user WHERE id = <id> LIMIT 1;
+
         users = [user for user in User.objects.values()]
-        
+        #SELECT * FROM user;
+
         for user in users:
             user_obj = User.objects.get(id=user['id'])
+            #SELECT * FROM user WHERE id = <user['id']> LIMIT 1;
+
             user["user_type"] = getUsertype(user_obj)
+            #SELECT usertype FROM user WHERE id = <user['id']>;
         return JsonResponse({"users":users})
     else:
         return redirect("login")
@@ -44,23 +50,34 @@ def register_view(request:HttpRequest):
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists.")
             return redirect('register')
+            #SELECT COUNT(*) FROM user WHERE username = '<username>';
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already exists.")
             return redirect('register')
+            #SELECT COUNT(*) FROM user WHERE email = '<email>';
 
         group = Group.objects.get(name=user_type)
+        #SELECT * FROM auth_group WHERE name = '<user_type>' LIMIT 1;
+
+
         user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
+        #INSERT INTO user (username, email, password) VALUES('<username>','<email>','<hashed_password>');
 
         #create user
         user.save()
         user.groups.add(group)
+        #INSERT INTO auth_user_groups (user_id, group_id) VALUES (<user_id>, <group_id>);
+
         Activity.objects.create(user=request.user, action="USER_CREATED", details=f"Created user {user.username}")
+        #INSERT INTO activity (user_id, action, details) VALUES (<request_user_id>, 'USER_CREATED', 'Created user <username>');
+
         Profile.objects.create(user=user, bio="bio",location="Dhaka")
+        #INSERT INTO profile (user_id, bio, location) VALUES (<user_id>, 'bio', 'Dhaka');
 
         #log
         if(not request.user.is_authenticated):
@@ -71,7 +88,6 @@ def register_view(request:HttpRequest):
     else:
         return render(request, 'register.html')
 
-
 @never_cache
 def login_view(request):
     if request.method == 'POST':
@@ -80,7 +96,9 @@ def login_view(request):
         remember_me = request.POST.get('remember_me')  # Get checkbox value
 
         if User.objects.filter(email=email).exists():
+            #SELECT COUNT(*) FROM user WHERE email = '<email>';
             user = User.objects.get(email=email)
+            #SELECT * FROM user WHERE email = '<email>' LIMIT 1;
             username = user.username  
 
             user = authenticate(request, username=username, password=password)
@@ -106,6 +124,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
+    #DELETE FROM django_session WHERE session_key = '<current_session_key>';
     messages.success(request, "You have successfully logged out.")
     return redirect('login')
 
@@ -121,9 +140,12 @@ def success_view(request):
 def deleteUser(request):
     if request.GET['id']:
         user = User.objects.filter(id = request.GET['id']).first()
+        #SELECT *  FROM auth_user WHERE id = '<id>' LIMIT 1;
         if(user):
             user.delete()
+            #DELETE FROM auth_user WHERE id = '<id>';
             Activity.objects.create(user=request.user, action="USER_DELETED", details=f"Created user {user.username}")
+            #INSERT INTO activity (user_id, action, details, created_at) VALUES ('<current_user_id>', 'USER_DELETED', 'Deleted user <username>', '<timestamp>');
 
             messages.success(request, "user deleted successfully!")
         else:
