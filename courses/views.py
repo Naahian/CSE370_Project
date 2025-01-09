@@ -53,6 +53,11 @@ def create_course(request):
 @login_required
 def update_course(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+  
+#SELECT * FROM courses WHERE id = ?;
+#UPDATE courses_course
+#SET title = ‘’, detail = ?, duration = ?, video_url = ?, created_by = ?, thumbnail = ?WHERE id = ?;
+
 
     if request.method == 'POST':
         course.title = request.POST.get('title')
@@ -72,6 +77,11 @@ def update_course(request, course_id):
 
 @login_required
 def delete_course(request):
+    #SELECT * FROM courses WHERE id = ?;
+
+    #DELETE FROM courses WHERE id = ?;
+
+
     if request.GET['id']:
         course = Course.objects.filter(id = request.GET['id']).first()
         if(course):
