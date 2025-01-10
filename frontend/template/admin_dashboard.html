@@ -134,7 +134,14 @@
                             {%for item in activities %}
                             <tr>
                                 <td>{{item.username}}</td>
-                                <td>{{item.action}}</td>
+                                {%if "CREATED" in item.action%}
+                                <td><span class="badge bg-success">{{item.action}}</span></td>
+                                {%elif "ENROLLED" in item.action%}
+                                <td><span class="badge bg-warning text-black">{{item.action}}</span></td>
+
+                                {%else%}
+                                <td><span class="badge bg-danger">{{item.action}}</span></td>
+                                {%endif%}
                                 <td>{{item.details}}</td>
                                 <td>{{item.timestamp}}</td>
                             </tr>
