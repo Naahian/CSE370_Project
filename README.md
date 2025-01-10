@@ -2,8 +2,7 @@
 An Edtech web application for cse370(database systems) course.
 
 ## Screenshots
-(screenshot image)  
-
+![BeFunky-collage](https://github.com/user-attachments/assets/62c322fa-e175-4f8d-a345-3e460a881424)
 ## Features
 ### Core Features
 - **Authentication System**:
